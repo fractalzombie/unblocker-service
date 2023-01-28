@@ -1,0 +1,15 @@
+framework:
+  messenger:
+    transports:
+      rabbitmq.subnet.event:
+        serializer: messenger.transport.symfony_serializer
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+
+    routing:
+      UnBlockerService\Subnet\Domain\Message\EventMessage: rabbitmq.subnet.event
+
+when@test:
+  framework:
+    messenger:
+      transports:
+        rabbitmq.subnet.transition_event: 'in-memory://'

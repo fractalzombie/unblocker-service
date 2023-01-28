@@ -1,0 +1,8 @@
+common:
+  resource: ../src/Common/Action/
+  type: attribute
+
+subnet:
+  resource: ../src/Subnet/Action/
+  prefix: /api/v1/subnets
+  type: attribute

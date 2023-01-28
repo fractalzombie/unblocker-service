@@ -1,0 +1,2 @@
+30 2 * * * /var/www/html/bin/console router:subnet:add
+0 2 * * * /var/www/html/bin/console router:subnet:download

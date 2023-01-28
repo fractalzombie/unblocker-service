@@ -1,0 +1,91 @@
+version: '3.10'
+
+services:
+  php-fpm: &php-fpm-container
+    build: .docker/php/fpm
+    env_file:
+      - .env
+    environment: &php-fpm-environment
+      COMPOSE_FILE: ${COMPOSE_FILE}
+      PROXY_HTTP_PORT: ${PROXY_HTTP_PORT}
+      PROXY_HTTPS_PORT: ${PROXY_HTTPS_PORT}
+      RABBITMQ_AMQP_PORT: ${RABBITMQ_AMQP_PORT}
+      RABBITMQ_MANAGEMENT_PORT: ${RABBITMQ_MANAGEMENT_PORT}
+      PHP_CS_FIXER_IGNORE_ENV: ${PHP_CS_FIXER_IGNORE_ENV}
+      APP_RUNTIME: ${APP_RUNTIME}
+      APP_NAME: ${APP_NAME}
+      APP_ENV: ${APP_ENV}
+      APP_SECRET: ${APP_SECRET}
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES}
+      MONOLOG_LOG_LEVEL: ${MONOLOG_LOG_LEVEL}
+      MESSENGER_TRANSPORT_DSN: ${MESSENGER_TRANSPORT_DSN}
+      DATABASE_SUBNET_CACHE_SECONDS: ${DATABASE_SUBNET_CACHE_SECONDS}
+      DATABASE_URL: ${DATABASE_URL}
+      MIKROTIK_ADDRESS: ${MIKROTIK_ADDRESS}
+      MIKROTIK_PORT: ${MIKROTIK_PORT}
+      MIKROTIK_USER: ${MIKROTIK_USER}
+      MIKROTIK_PASSWORD: ${MIKROTIK_PASSWORD}
+    volumes:
+      - ./:/var/www/html
+      - ~/.ssh:/root/.ssh:ro
+
+  consumer-subnet-event:
+    <<: *php-fpm-container
+    restart: always
+    build: .docker/php/cli
+    environment:
+      <<: *php-fpm-environment
+    entrypoint: 'sh bin/start-consumer -r rabbitmq.subnet.event -s rabbitmq -p 5672 -m 128M -l 3600 -e true'
+    depends_on:
+      - php-fpm
+
+  cron:
+    <<: *php-fpm-container
+    restart: always
+    build: .docker/php/cli
+    environment:
+      <<: *php-fpm-environment
+    entrypoint: '/usr/sbin/crond -f -l 2 -L /dev/stdout'
+    depends_on:
+      - php-fpm
+    volumes:
+      - .docker/cron:/var/spool/cron/crontabs:ro
+
+  proxy:
+    build: .docker/proxy
+    depends_on:
+      - php-fpm
+    volumes:
+      - ./:/var/www/html:ro
+    env_file:
+      - .env
+    ports:
+      - "${PROXY_HTTP_PORT}:80"
+      - "${PROXY_HTTPS_PORT}:443"
+
+  mysql:
+    image: mysql:latest
+    ports:
+      - "${DATABASE_PORT}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_NAME}
+    volumes:
+      - database:/var/lib/mysql
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "${RABBITMQ_AMQP_PORT}:5672"
+      - "${RABBITMQ_MANAGEMENT_PORT}:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    volumes:
+      - rabbitmq-lib:/var/lib/rabbitmq
+      - rabbitmq-log:/var/log/rabbitmq
+
+volumes:
+  database:
+  rabbitmq-lib:
+  rabbitmq-log:

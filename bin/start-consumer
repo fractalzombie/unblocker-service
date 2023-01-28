@@ -1,0 +1,28 @@
+#!/bin/bash
+
+SLEEP_TIME_BEFORE_RECONNECT=5
+enabled=false
+
+while getopts r:s:p:m:l:e flag
+do
+    case "${flag}" in
+        r) receiver=${OPTARG};;
+        s) service=${OPTARG};;
+        p) port=${OPTARG};;
+        m) memory=${OPTARG};;
+        l) limit=${OPTARG};;
+        e) enabled=true;;
+        *) exit 0;
+    esac
+done
+
+if $enabled; then
+  while ! nc -z "$service" "$port"
+  do
+    echo "$(date) - Trying connect to $service:$port"
+    sleep $SLEEP_TIME_BEFORE_RECONNECT
+  done
+  echo "$(date) - Connection to $service:$port established"
+fi
+
+php bin/console messenger:consume "$receiver" --memory-limit="$memory" --time-limit="$limit"

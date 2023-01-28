@@ -1,0 +1,9 @@
+nelmio_api_doc:
+  documentation:
+    info:
+      title: UnBlocker Service
+      description: Service that collects all blocked subnets
+      version: 1.0.0
+  areas:
+    path_patterns:
+      - ^/api/v1

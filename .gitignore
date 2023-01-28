@@ -1,0 +1,44 @@
+###> project ###
+.idea
+.fleet
+.DS_Store
+**/.env
+###< project ###
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/*
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+/phpunit.xml
+bin/phpunit
+###< symfony/phpunit-bridge ###
+
+###> friendsofphp/php-cs-fixer ###
+**/.php-cs-fixer.cache
+**/.php-cs-fixer.php
+###< friendsofphp/php-cs-fixer ###
+
+###> phpunit/phpunit ###
+**/phpunit.xml
+**/.phpunit.result.cache
+**/.phpunit.cache/*
+###< phpunit/phpunit ###
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
+
+###> filesystem tmp files
+\#*
+*~
+.\#*
+###< filesystem tmp files
