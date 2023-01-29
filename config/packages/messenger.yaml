@@ -6,7 +6,7 @@ framework:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
 
     routing:
-      UnBlockerService\Subnet\Domain\Message\EventMessage: rabbitmq.subnet.event
+      UnBlockerService\Domain\Subnet\Message\EventMessage: rabbitmq.subnet.event
 
 when@test:
   framework:

@@ -1,13 +1,35 @@
 {
     "type": "project",
-    "license": "proprietary",
+    "name": "frzb/unblocker-service",
+    "description": "The UnBlocker Service allows you get update of rules for your router to unblock it via VPN or other ISP",
+    "keywords": [
+        "project",
+        "symfony",
+        "messenger",
+        "transactional",
+        "transaction",
+        "serialize",
+        "serializer",
+        "unblocker",
+        "blocker",
+        "ip",
+        "frzb"
+    ],
+    "homepage": "https://github.com/fractalzombie/unblocker-service",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mykhailo Shtanko",
+            "email": "fractalzombie@gmail.com"
+        }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
         "php": ">=8.2",
+        "ext-amqp": "*",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "ext-amqp": "*",
         "doctrine/doctrine-bundle": "^2.8",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.14",
@@ -21,6 +43,7 @@
         "nelmio/api-doc-bundle": "^4.11",
         "symfony/amqp-messenger": "6.2.*",
         "symfony/asset": "6.2.*",
+        "symfony/clock": "6.2.*",
         "symfony/console": "6.2.*",
         "symfony/dotenv": "6.2.*",
         "symfony/expression-language": "6.2.*",
@@ -30,17 +53,21 @@
         "symfony/intl": "6.2.*",
         "symfony/messenger": "6.2.*",
         "symfony/monolog-bundle": "^3.8",
+        "symfony/notifier": "6.2.*",
         "symfony/runtime": "6.2.*",
         "symfony/security-bundle": "6.2.*",
         "symfony/serializer": "6.2.*",
         "symfony/string": "6.2.*",
+        "symfony/telegram-notifier": "6.2.*",
         "symfony/uid": "6.2.*",
         "symfony/validator": "6.2.*",
         "symfony/yaml": "6.2.*"
     },
     "require-dev": {
         "composer/package-versions-deprecated": "^1.11",
-        "friendsofphp/php-cs-fixer": "^3.13",
+        "friendsofphp/php-cs-fixer": "^3.14",
+        "pestphp/pest": "^1.22",
+        "pestphp/pest-plugin-mock": "^1.0",
         "roave/security-advisories": "dev-latest",
         "symfony/browser-kit": "6.2.*",
         "symfony/css-selector": "6.2.*",
@@ -53,7 +80,8 @@
     "config": {
         "allow-plugins": {
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "pestphp/pest-plugin": true
         },
         "sort-packages": true
     },

@@ -19,7 +19,7 @@ framework:
     log: true
 
   serializer:
-    circular_reference_handler: UnBlockerService\Common\Infrastructure\Symfony\Serializer\CircularReferenceHandler
+    circular_reference_handler: UnBlockerService\Infrastructure\Symfony\Serializer\CircularReferenceHandler
     default_context:
       datetime_format: !php/const DateTimeInterface::RFC3339_EXTENDED
 

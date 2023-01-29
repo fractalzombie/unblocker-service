@@ -35,7 +35,7 @@ services:
     build: .docker/php/cli
     environment:
       <<: *php-fpm-environment
-    entrypoint: 'sh bin/start-consumer -r rabbitmq.subnet.event -s rabbitmq -p 5672 -m 128M -l 3600 -e true'
+    entrypoint: 'sh bin/start-consumer -r rabbitmq.subnet.event -s rabbitmq -p 5672 -m 256M -l 3600 -c 1000 -e true'
     depends_on:
       - php-fpm
 

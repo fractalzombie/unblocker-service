@@ -5,7 +5,7 @@ include .env
 .DEFAULT_GOAL := help
 .PHONY: help
 
-ENV_FILE = ".env"
+ENV_FILE = ".env.local"
 COMPOSE_FILE ?= "docker-compose.yml"
 TEST_COMPOSE_FILE ?= "docker-compose.testing.yml"
 TEST_CONTAINER ?= "php-testing"
@@ -31,7 +31,7 @@ purge-volumes:
 start: ## start-clear - Run the project at clear point.
 	$(DOCKER_COMPOSE) --env-file $(ENV_FILE) -f $(COMPOSE_FILE) -p $(APP_NAME) stop
 	$(DOCKER_COMPOSE) --env-file $(ENV_FILE) -f $(COMPOSE_FILE) -p $(APP_NAME) rm -f
-	$(DOCKER_COMPOSE) --env-file $(ENV_FILE) -f $(COMPOSE_FILE) -p $(APP_NAME) up -d --build --force-recreate
+	$(DOCKER_COMPOSE) --env-file $(ENV_FILE) -f $(COMPOSE_FILE) -p $(APP_NAME) up -d --build --force-recreate --remove-orphans
 
 stop: ## stop - Stop the project.
 	$(DOCKER_COMPOSE) --env-file $(ENV_FILE) -f $(COMPOSE_FILE) -p $(APP_NAME) stop
