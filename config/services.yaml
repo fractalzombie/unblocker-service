@@ -6,7 +6,7 @@ services: &services
   UnBlockerService\:
     resource: '../src/**'
     exclude:
-      - '../src/**/{Attribute,Util,Traits,Helper,Request,Response,Contract,ValueObject,Enum,DTO,Model,Message,Event,Data,Specification,Exception,UseCase,CompilerPass,DependencyInjection,Tests}/**'
+      - '../src/**/{Attribute,Util,Traits,Helper,Request,Response,Contract,ValueObject,Enum,DTO,Model,Entity,Message,Event,Data,Specification,Exception,UseCase,CompilerPass,DependencyInjection,Tests}'
       - '../src/**/{*Kernel.php}'
 
 when@test:
