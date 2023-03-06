@@ -3,7 +3,7 @@
 SLEEP_TIME_BEFORE_RECONNECT=5
 enabled=false
 
-while getopts r:s:p:m:l:e:c flag
+while getopts r:s:p:m:l:c:e flag
 do
     case "${flag}" in
         r) receiver=${OPTARG};;
@@ -26,5 +26,4 @@ if $enabled; then
   echo "$(date) - Connection to $service:$port established"
 fi
 
-# shellcheck disable=SC2086
 php bin/console messenger:consume "$receiver" --memory-limit="$memory" --time-limit="$limit" --limit=$count
