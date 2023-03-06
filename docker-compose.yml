@@ -29,6 +29,18 @@ services:
       - ./:/var/www/html
       - ~/.ssh:/root/.ssh:ro
 
+  node:
+    image: node:19
+    env_file:
+      - .env
+    environment:
+      <<: *php-fpm-environment
+    working_dir: /var/www/html
+    entrypoint: npm run watch
+    volumes:
+      - ./:/var/www/html
+      - ~/.ssh:/root/.ssh:ro
+
   consumer-subnet-event:
     <<: *php-fpm-container
     restart: always
