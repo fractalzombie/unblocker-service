@@ -2,9 +2,17 @@
 
 declare(strict_types=1);
 
+/*
+ * UnBlocker service for routers.
+ *
+ * (c) Mykhailo Shtanko <fractalzombie@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Infrastructure\Monolog\Logger\ContextExtractor\Extractor;
 
-use FRZB\Component\DependencyInjection\Attribute\AsAlias;
 use FRZB\Component\DependencyInjection\Attribute\AsService;
 use FRZB\Component\DependencyInjection\Attribute\AsTagged;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;

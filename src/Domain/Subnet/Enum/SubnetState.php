@@ -6,10 +6,10 @@ namespace UnBlockerService\Domain\Subnet\Enum;
 
 enum SubnetState: string
 {
-    case New = self::NEW;
-    case Created = self::CREATED;
-    case Updated = self::UPDATED;
-    case Added = self::ADDED;
+    case New = 'new';
+    case Created = 'created';
+    case Updated = 'updated';
+    case Added = 'added';
 
     public const STATE_NAME = 'subnet';
     public const NEW = 'new';

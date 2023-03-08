@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * UnBlocker service for routers.
+ *
+ * (c) Mykhailo Shtanko <fractalzombie@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Infrastructure\Doctrine\Entity;
 
 use Doctrine\DBAL\Types\Types;
@@ -9,11 +18,11 @@ use Doctrine\ORM\Mapping as ORM;
 use UnBlockerService\Domain\Subnet\Entity\SubnetInterface;
 use UnBlockerService\Domain\Subnet\Enum\SubnetState;
 use UnBlockerService\Domain\Subnet\Helper\SubnetHelper;
-use UnBlockerService\Infrastructure\Doctrine\Repository\SubnetRepository;
 use UnBlockerService\Infrastructure\Doctrine\Trait\HasCountry;
 use UnBlockerService\Infrastructure\Doctrine\Trait\HasCreatedAt;
 use UnBlockerService\Infrastructure\Doctrine\Trait\HasIdentifier;
 use UnBlockerService\Infrastructure\Doctrine\Trait\HasUpdatedAt;
+use UnBlockerService\Infrastructure\Subnet\Repository\SubnetRepository;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\CreateEventMessage;
 
 #[ORM\UniqueConstraint(fields: ['address', 'mask'])]

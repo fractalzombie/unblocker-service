@@ -3,15 +3,13 @@
 declare(strict_types=1);
 
 /*
-|--------------------------------------------------------------------------
-| Test Case
-|--------------------------------------------------------------------------
-|
-| The closure you provide to your test functions is always bound to a specific PHPUnit test
-| case class. By default, that class is "PHPUnit\Framework\TestCase". Of course, you may
-| need to change it using the "uses()" function to bind a different classes or traits.
-|
-*/
+ * UnBlocker service for routers.
+ *
+ * (c) Mykhailo Shtanko <fractalzombie@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 // uses(Tests\TestCase::class)->in('Feature');
 

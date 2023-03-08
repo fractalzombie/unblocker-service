@@ -6,7 +6,7 @@ namespace UnBlockerService\Domain\Router\Enum;
 
 enum RouterType: string
 {
-    case Mikrotik = self::MIKROTIK;
+    case Mikrotik = 'mikrotik';
 
     public const MIKROTIK = 'mikrotik';
 }

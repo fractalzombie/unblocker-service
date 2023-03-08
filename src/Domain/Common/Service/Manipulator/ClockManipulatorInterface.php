@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * UnBlocker service for routers.
+ *
+ * (c) Mykhailo Shtanko <fractalzombie@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Domain\Common\Service\Manipulator;
 
 use FRZB\Component\DependencyInjection\Attribute\AsAlias;
@@ -20,7 +29,7 @@ interface ClockManipulatorInterface
 
     public function sleep(float|int $seconds): void;
 
-    public function defaultTimeZone(bool $asName = false): \DateTimeZone|string;
+    public function defaultTimeZone(): \DateTimeZone;
 
     public function defaultFormat(): string;
 }

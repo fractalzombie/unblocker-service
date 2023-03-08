@@ -32,6 +32,9 @@ Encore
     // but, you probably want this, unless you're building a single-page app
     .enableSingleRuntimeChunk()
 
+    // enables post css processors for css
+    .enablePostCssLoader()
+
     /*
      * FEATURE CONFIG
      *
@@ -60,7 +63,7 @@ Encore
     //.enableSassLoader()
 
     // uncomment if you use TypeScript
-    //.enableTypeScriptLoader()
+    .enableTypeScriptLoader()
 
     // uncomment if you use React
     //.enableReactPreset()

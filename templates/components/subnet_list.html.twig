@@ -1,15 +1,59 @@
-<tr {{ attributes }}>
-    <th>{{ food.name }}</th>
-    <td>
-        Votes: <span class="badge bg-secondary"></span>{{ food.votes }}
-    </td>
-    <td style="width: 250px;">
-        <div>
-            <h3>Featured Products</h3>
+{# templates/components/subnet_list.html.twig #}
 
-            {% for subnet in this.subnets %}
-                {{ subnet.getId }}
+<div class="relative overflow-x-auto" {{ attributes }}>
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" data-model="on(change)|currentPage">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+            <th scope="col" class="px-6 py-3">ID</th>
+            <th scope="col" class="px-6 py-3">External ID</th>
+            <th scope="col" class="px-6 py-3">Address/Mask</th>
+            <th scope="col" class="px-6 py-3">Country</th>
+            <th scope="col" class="px-6 py-3">State</th>
+            <th scope="col" class="px-6 py-3">Created</th>
+            <th scope="col" class="px-6 py-3">Updated</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% if this.subnetList|length > 0 %}
+            {% for subnet in this.pagination.itemList %}
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ subnet.id }}</th>
+                    <td class="px-6 py-4">{{ subnet.externalId }}</td>
+                    <td class="px-6 py-4">{{ subnet.address }}/{{ subnet.mask }}</td>
+                    <td class="px-6 py-4">{{ subnet.country }}</td>
+                    <td class="px-6 py-4">{{ subnet.state.value }}</td>
+                    <td class="px-6 py-4">{{ subnet.createdAt|date }}</td>
+                    <td class="px-6 py-4">{{ subnet.updatedAt|date }}</td>
+                </tr>
             {% endfor %}
-        </div>
-    </td>
-</tr>
+        {% else %}
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <th scope="row" rowspan="7" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">No subnets</th>
+        </tr>
+        {% endif %}
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation example">
+        <ul class="inline-flex items-center -space-x-px">
+            <li>
+                <a href="#" class="block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    <span class="sr-only">Previous</span>
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                </a>
+            </li>
+            {% for page in 1..pageCount %}
+                <li>
+                    <button data-model="currentPage" data-value="{{ page }}" data-action="live#update" class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ page }}</button>
+                </li>
+            {% endfor %}
+            <li>
+                <a href="#" class="block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    <span class="sr-only">Next</span>
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div>{{ currentPage }}</div>
+</div>

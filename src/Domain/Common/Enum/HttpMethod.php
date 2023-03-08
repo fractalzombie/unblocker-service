@@ -6,16 +6,16 @@ namespace UnBlockerService\Domain\Common\Enum;
 
 enum HttpMethod: string
 {
-    case Head = self::HEAD;
-    case Get = self::GET;
-    case Post = self::POST;
-    case Put = self::PUT;
-    case Patch = self::PATCH;
-    case Delete = self::DELETE;
-    case Purge = self::PURGE;
-    case Options = self::OPTIONS;
-    case Trace = self::TRACE;
-    case Connect = self::CONNECT;
+    case Head = 'HEAD';
+    case Get = 'GET';
+    case Post = 'POST';
+    case Put = 'PUT';
+    case Patch = 'PATCH';
+    case Delete = 'DELETE';
+    case Purge = 'PURGE';
+    case Options = 'OPTIONS';
+    case Trace = 'TRACE';
+    case Connect = 'CONNECT';
 
     public const HEAD = 'HEAD';
     public const GET = 'GET';

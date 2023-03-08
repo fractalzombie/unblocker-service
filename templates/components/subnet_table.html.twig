@@ -1,0 +1,40 @@
+{# templates/components/subnet_table.html.twig #}
+
+<div {{ attributes }}>
+    <div class="relative overflow-x-auto">
+        <div class="mb-6">
+            <label for="query" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">IP Address</label>
+            <input data-model="query" type="text" id="query" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="192.168.88.1">
+        </div>
+        {% if this.subnets|length > 0 %}
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" data-loading="addClass(opacity-50)">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">ID</th>
+                        <th scope="col" class="px-6 py-3">External ID</th>
+                        <th scope="col" class="px-6 py-3">Address/Mask</th>
+                        <th scope="col" class="px-6 py-3">Country</th>
+                        <th scope="col" class="px-6 py-3">State</th>
+                        <th scope="col" class="px-6 py-3">Created</th>
+                        <th scope="col" class="px-6 py-3">Updated</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subnet in this.subnets %}
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ subnet.id }}</th>
+                            <td class="px-6 py-4">{{ subnet.externalId }}</td>
+                            <td class="px-6 py-4">{{ subnet.address }}/{{ subnet.mask }}</td>
+                            <td class="px-6 py-4">{{ subnet.country }}</td>
+                            <td class="px-6 py-4">{{ subnet.state.value }}</td>
+                            <td class="px-6 py-4">{{ subnet.createdAt|date }}</td>
+                            <td class="px-6 py-4">{{ subnet.updatedAt|date }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            Nothing to show for {{ query }}
+        {% endif %}
+    </div>
+</div>

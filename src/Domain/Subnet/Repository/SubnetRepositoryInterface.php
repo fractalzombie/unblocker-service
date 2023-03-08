@@ -2,24 +2,30 @@
 
 declare(strict_types=1);
 
+/*
+ * UnBlocker service for routers.
+ *
+ * (c) Mykhailo Shtanko <fractalzombie@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Domain\Subnet\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
-use Doctrine\ORM\EntityRepository;
 use FRZB\Component\DependencyInjection\Attribute\AsAlias;
-use Happyr\DoctrineSpecification\Repository\EntitySpecificationRepository;
-use Happyr\DoctrineSpecification\Repository\EntitySpecificationRepositoryInterface;
 use Symfony\Component\Uid\Uuid;
+use UnBlockerService\Domain\Common\Repository\RepositoryInterface;
+use UnBlockerService\Domain\Common\Repository\RepositoryWithPaginationInterface;
 use UnBlockerService\Domain\Subnet\Entity\SubnetInterface;
 use UnBlockerService\Domain\Subnet\Enum\SubnetState;
-use UnBlockerService\Infrastructure\Doctrine\Repository\SubnetRepository;
+use UnBlockerService\Infrastructure\Subnet\Repository\SubnetRepository;
 
 /**
- * @template T of SubnetInterface
- * @extends EntitySpecificationRepository<T>
+ * @extends RepositoryInterface<SubnetInterface>|RepositoryWithPaginationInterface<SubnetInterface>
  */
 #[AsAlias(SubnetRepository::class)]
-interface SubnetRepositoryInterface extends EntitySpecificationRepositoryInterface
+interface SubnetRepositoryInterface extends RepositoryInterface, RepositoryWithPaginationInterface
 {
     public function getOneById(Uuid $id): ?SubnetInterface;
 

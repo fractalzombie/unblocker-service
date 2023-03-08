@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+/*
+ * UnBlocker service for routers.
+ *
+ * (c) Mykhailo Shtanko <fractalzombie@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Infrastructure\Common\Service\Manipulator;
 
 use FRZB\Component\DependencyInjection\Attribute\AsService;
@@ -49,9 +58,9 @@ final class ClockManipulator implements ClockManipulatorInterface
         return \DateTimeImmutable::createFromFormat($format ?? $this->defaultFormat(), $datetime, $this->defaultTimeZone());
     }
 
-    public function defaultTimeZone(bool $asName = false): \DateTimeZone|string
+    public function defaultTimeZone(): \DateTimeZone
     {
-        return $asName ? $this->timezone : new \DateTimeZone($this->timezone);
+        return new \DateTimeZone($this->timezone);
     }
 
     public function defaultFormat(): string
