@@ -2,27 +2,36 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Infrastructure\Monolog\Logger\ContextExtractor\Extractor;
 
-use FRZB\Component\DependencyInjection\Attribute\AsAlias;
-use FRZB\Component\DependencyInjection\Attribute\AsService;
-use FRZB\Component\DependencyInjection\Attribute\AsTagged;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use UnBlockerService\Domain\Common\Logger\ContextExtractor\Extractor\ContextExtractorInterface;
 use UnBlockerService\Domain\Common\Logger\ContextExtractor\ValueObject\ContextInterface;
 use UnBlockerService\Domain\Common\Service\Manipulator\ClassManipulatorInterface;
 use UnBlockerService\Infrastructure\Monolog\Logger\ContextExtractor\ValueObject\Context;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\NotifyEventMessage;
 
-#[AsService, AsTagged(ContextExtractorInterface::class)]
+#[Autoconfigure, AutoconfigureTag(ContextExtractorInterface::class)]
 class NotifyEventMessageContextExtractor implements ContextExtractorInterface
 {
-    private const MT_INFO = '[HANDLER] [INFO] [MESSAGE: NotifyEventMessage] [MESSAGE_ID: {message_id}] [COUNTRY: {country}]';
-    private const MT_ERROR = '[HANDLER] [ERROR] [MESSAGE: NotifyEventMessage] [MESSAGE_ID: {message_id}] [EXCEPTION_CLASS: {exception_class}] [EXCEPTION_MESSAGE: {exception_message}]';
+    private const string MT_INFO = '[HANDLER] [INFO] [MESSAGE: NotifyEventMessage] [MESSAGE_ID: {message_id}] [COUNTRY: {country}]';
+    private const string MT_ERROR = '[HANDLER] [ERROR] [MESSAGE: NotifyEventMessage] [MESSAGE_ID: {message_id}] [EXCEPTION_CLASS: {exception_class}] [EXCEPTION_MESSAGE: {exception_message}]';
 
     public function __construct(
         private readonly ClassManipulatorInterface $classManipulator,
-    ) {
-    }
+    ) {}
 
     public function extract(NotifyEventMessage $context, ?\Throwable $exception = null): ContextInterface
     {

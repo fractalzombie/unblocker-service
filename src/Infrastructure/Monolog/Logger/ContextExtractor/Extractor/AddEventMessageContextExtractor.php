@@ -2,11 +2,21 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Infrastructure\Monolog\Logger\ContextExtractor\Extractor;
 
-use FRZB\Component\DependencyInjection\Attribute\AsAlias;
-use FRZB\Component\DependencyInjection\Attribute\AsService;
-use FRZB\Component\DependencyInjection\Attribute\AsTagged;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use UnBlockerService\Domain\Common\Logger\ContextExtractor\Extractor\ContextExtractorInterface;
 use UnBlockerService\Domain\Common\Logger\ContextExtractor\ValueObject\ContextInterface;
 use UnBlockerService\Domain\Common\Service\Manipulator\ClassManipulatorInterface;
@@ -14,28 +24,25 @@ use UnBlockerService\Domain\Common\Service\Manipulator\ClockManipulatorInterface
 use UnBlockerService\Infrastructure\Monolog\Logger\ContextExtractor\ValueObject\Context;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\AddEventMessage;
 
-#[AsService, AsTagged(ContextExtractorInterface::class)]
+#[Autoconfigure, AutoconfigureTag(ContextExtractorInterface::class)]
 class AddEventMessageContextExtractor implements ContextExtractorInterface
 {
-    private const MT_INFO = '[HANDLER] [INFO] [MESSAGE: AddEventMessage] [MESSAGE_ID: {message_id}] [COUNTRY: {country}] [STATE: {state}] [SUBNET: {subnet}] [GROUP_NAME: {group_name}]';
-    private const MT_ERROR = '[HANDLER] [ERROR] [MESSAGE: AddEventMessage] [MESSAGE_ID: {message_id}] [EXCEPTION_CLASS: {exception_class}] [EXCEPTION_MESSAGE: {exception_message}] [COUNTRY: {country}] [STATE: {state}] [SUBNET: {subnet}] [GROUP_NAME: {group_name}]';
+    private const string MT_INFO = '[HANDLER] [INFO] [MESSAGE: AddEventMessage] [MESSAGE_ID: {message_id}] [COUNTRY: {country}] [STATE: {state}] [SUBNET: {subnet}] [GROUP_NAME: {group_name}]';
+    private const string MT_ERROR = '[HANDLER] [ERROR] [MESSAGE: AddEventMessage] [MESSAGE_ID: {message_id}] [EXCEPTION_CLASS: {exception_class}] [EXCEPTION_MESSAGE: {exception_message}] [COUNTRY: {country}] [STATE: {state}] [SUBNET: {subnet}] [GROUP_NAME: {group_name}]';
 
     public function __construct(
         private readonly ClassManipulatorInterface $classManipulator,
         private readonly ClockManipulatorInterface $clockManipulator,
-    ) {
-    }
+    ) {}
 
     public function extract(AddEventMessage $context, ?\Throwable $exception = null): ContextInterface
     {
         $context = [
-            'message_id' => (string) $context->id,
+            'message_id' => $context->id,
             'country' => $context->country,
             'subnet' => "{$context->address}/{$context->mask}",
             'event_type' => $context->eventType->value,
             'state' => $context->state->value,
-            'created_at' => $context->createdAt->format($this->clockManipulator->defaultFormat()),
-            'updated_at' => $context->updatedAt->format($this->clockManipulator->defaultFormat()),
         ];
 
         if ($exception) {

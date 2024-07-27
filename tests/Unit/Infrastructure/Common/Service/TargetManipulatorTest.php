@@ -2,6 +2,17 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Tests\Unit\Infrastructure\Common\Service;
 
 use UnBlockerService\Domain\Common\Service\Manipulator\Exception\ManipulatorException;
@@ -39,8 +50,7 @@ test('test TargetManipulator::getAttributesOf()', function (array $arguments, ar
     $executedValue = (new TargetManipulator())->getAttributesOf(...$arguments);
 
     expect($executedValue[0]->testProperty)->toBe($expectedValue[0]->testProperty)
-        ->and($executedValue[1]->testProperty)->toBe($expectedValue[1]->testProperty)
-    ;
+        ->and($executedValue[1]->testProperty)->toBe($expectedValue[1]->testProperty);
 })->with(function () {
     yield 'Success' => [
         'arguments' => [
@@ -83,8 +93,7 @@ test('test TargetManipulator::getReflectionAttributesOf()', function (array $arg
 
     expect($executedValue[0]->newInstance()->testProperty)->toBe($expectedValue[0]->testProperty)
         ->and($executedValue[1]->newInstance()->testProperty)->toBe($expectedValue[1]->testProperty)
-        ->and($executedValue[2]->newInstance()->testProperty)->toBe($expectedValue[2]->testProperty)
-    ;
+        ->and($executedValue[2]->newInstance()->testProperty)->toBe($expectedValue[2]->testProperty);
 })->with(function () {
     yield 'Success' => [
         'arguments' => [
@@ -126,8 +135,7 @@ test('test TargetManipulator::getPropertiesOf()', function (array $arguments, ar
     $executedValue = (new TargetManipulator())->getPropertiesOf(...$arguments);
 
     expect($executedValue[0]->getName())->toBe($expectedValue[0])
-        ->and($executedValue[1]->getName())->toBe($expectedValue[1])
-    ;
+        ->and($executedValue[1]->getName())->toBe($expectedValue[1]);
 })->with(function () {
     yield 'Success' => [
         'arguments' => ['target' => TestClassSecondWithTestAttribute::class],

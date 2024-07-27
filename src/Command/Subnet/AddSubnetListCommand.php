@@ -2,6 +2,17 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Command\Subnet;
 
 use Fp\Collections\ArrayList;
@@ -47,8 +58,7 @@ final class AddSubnetListCommand extends Command
                 ->appended(NotifyEventMessage::fromMessage(
                     "All {$subnetList->count()} subnets was sent to add in router",
                     $this->clockManipulator->nowAsFormatted(),
-                ))->tap($this->publisher->publish(...))
-            ;
+                ))->tap($this->publisher->publish(...));
 
             $ui->success('All messages was sent to event bus');
 

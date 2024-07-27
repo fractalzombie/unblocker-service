@@ -2,6 +2,17 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Tests\Unit\Command\Subnet;
 
 use Symfony\Component\Console\Command\Command;
@@ -32,29 +43,24 @@ test('Test DownloadSubnetListCommand', function (array $providerList, string $su
         : $downloader
             ->expects($this->exactly($countOfProviderList))
             ->method('download')
-            ->willReturn($subnetList)
-    ;
+            ->willReturn($subnetList);
 
     $eventPublisher
         ->expects($expectedException ? $this->never() : $this->exactly(\count($subnetList) + 1))
-        ->method('publish')
-    ;
+        ->method('publish');
 
     $clockManipulator
         ->expects($expectedException ? $this->never() : $this->exactly(\count($subnetList)))
         ->method('now')
-        ->willReturn(new \DateTimeImmutable())
-    ;
+        ->willReturn(new \DateTimeImmutable());
 
     $clockManipulator
         ->expects($expectedException ? $this->never() : $this->once())
         ->method('nowAsFormatted')
-        ->willReturn((new \DateTimeImmutable())->format(\DateTimeInterface::RFC3339))
-    ;
+        ->willReturn((new \DateTimeImmutable())->format(\DateTimeInterface::RFC3339));
 
     $executedCommandStatus = (new DownloadSubnetListCommand($downloader, $eventPublisher, $clockManipulator, $providerList))
-        ->run($input, $output)
-    ;
+        ->run($input, $output);
 
     expect($executedCommandStatus)->toBe($expectedCommandStatus);
 })->with(function () {

@@ -2,33 +2,43 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Infrastructure\Doctrine\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
 use UnBlockerService\Domain\Subnet\Entity\SubnetInterface;
 use UnBlockerService\Domain\Subnet\Enum\SubnetState;
 use UnBlockerService\Domain\Subnet\Helper\SubnetHelper;
 use UnBlockerService\Infrastructure\Doctrine\Repository\SubnetRepository;
-use UnBlockerService\Infrastructure\Doctrine\Trait\HasCountry;
-use UnBlockerService\Infrastructure\Doctrine\Trait\HasCreatedAt;
-use UnBlockerService\Infrastructure\Doctrine\Trait\HasIdentifier;
-use UnBlockerService\Infrastructure\Doctrine\Trait\HasUpdatedAt;
+use UnBlockerService\Infrastructure\Doctrine\Trait\CountryTrait;
+use UnBlockerService\Infrastructure\Doctrine\Trait\IdentifierTrait;
+use UnBlockerService\Infrastructure\Doctrine\Trait\TimeStampTrait;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\CreateEventMessage;
 
 #[ORM\UniqueConstraint(fields: ['address', 'mask'])]
 #[ORM\Entity(repositoryClass: SubnetRepository::class)]
 final class Subnet implements SubnetInterface
 {
-    use HasCountry;
-    use HasCreatedAt;
-    use HasIdentifier;
-    use HasUpdatedAt;
+    use CountryTrait;
+    use IdentifierTrait;
+    use TimeStampTrait;
 
-    private const MAX_LENGTH_EXTERNAL_ID = 32;
-    private const MAX_LENGTH_OF_ADDRESS = 15;
-    private const MAX_LENGTH_OF_MASK = 2;
-    private const MAX_LENGTH_OF_STATE = 16;
+    private const int MAX_LENGTH_EXTERNAL_ID = 32;
+    private const int MAX_LENGTH_OF_ADDRESS = 15;
+    private const int MAX_LENGTH_OF_MASK = 2;
+    private const int MAX_LENGTH_OF_STATE = 16;
 
     #[ORM\Column(type: Types::STRING, length: self::MAX_LENGTH_EXTERNAL_ID, unique: true, nullable: true)]
     private ?string $externalId;
@@ -46,27 +56,21 @@ final class Subnet implements SubnetInterface
         string $address,
         int $mask,
         string $country,
-        \DateTimeInterface $createdAt,
-        \DateTimeInterface $updatedAt,
-        SubnetState $state = SubnetState::New,
+        SubnetState $state,
     ) {
         $this->address = $address;
         $this->externalId = null;
         $this->mask = $mask;
         $this->country = $country;
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
         $this->state = $state;
     }
 
-    public static function fromCreateEventMessage(CreateEventMessage $message, \DateTimeInterface $createdAt): self
+    public static function fromCreateEventMessage(CreateEventMessage $message): self
     {
         return new self(
             $message->address,
             $message->mask,
             $message->country,
-            $createdAt,
-            $createdAt,
             SubnetState::Created,
         );
     }

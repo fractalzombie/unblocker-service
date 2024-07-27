@@ -2,11 +2,13 @@ doctrine:
   dbal:
     url: '%env(resolve:DATABASE_URL)%'
     server_version: '%env(resolve:DATABASE_VERSION)%'
+    types:
+      uuid: Symfony\Bridge\Doctrine\Types\UuidType
   orm:
-    default_repository_class: Happyr\DoctrineSpecification\Repository\EntitySpecificationRepository
     auto_generate_proxy_classes: true
     enable_lazy_ghost_objects: true
     naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+    default_repository_class: UnBlockerService\Infrastructure\Doctrine\Repository\ServiceEntityRepository
     auto_mapping: true
     mappings:
       UnBlockerService\Infrastructure\Doctrine\Entity:
@@ -32,7 +34,7 @@ when@prod:
       result_cache_driver:
         type: pool
         pool: doctrine.result_cache_pool
-
+  
   framework:
     cache:
       pools:

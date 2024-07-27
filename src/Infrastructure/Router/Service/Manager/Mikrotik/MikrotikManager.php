@@ -2,13 +2,24 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Infrastructure\Router\Service\Manager\Mikrotik;
 
-use FRZB\Component\DependencyInjection\Attribute\AsService;
-use FRZB\Component\DependencyInjection\Attribute\AsTagged;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use RouterOS\Interfaces\QueryInterface;
 use RouterOS\Query;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use UnBlockerService\Domain\Common\Enum\ProcessState;
 use UnBlockerService\Domain\Router\Enum\RouterType;
 use UnBlockerService\Domain\Router\Service\Client\Mikrotik\ClientInterface;
@@ -21,21 +32,19 @@ use UnBlockerService\Infrastructure\Router\Service\Manager\Mikrotik\Response\Add
 use UnBlockerService\Infrastructure\Router\Service\Manager\Mikrotik\Response\GetResponse;
 use UnBlockerService\Infrastructure\Symfony\EventDispatcher\Event\RouterManagerEvent;
 
-#[AsService, AsTagged(ManagerInterface::class)]
+#[Autoconfigure, AutoconfigureTag(ManagerInterface::class)]
 class MikrotikManager implements ManagerInterface
 {
     public function __construct(
         private readonly ClientInterface $client,
         private readonly EventDispatcherInterface $eventDispatcher,
-    ) {
-    }
+    ) {}
 
     public function getSubnet(ReadOnlySubnetInterface $subnet): GetResponseInterface
     {
         try {
             $query = (new Query(ClientInterface::API_URL_ADDRESS_LIST_GET))
-                ->setAttributes(["=number={$subnet->getExternalId()}"])
-            ;
+                ->setAttributes(["=number={$subnet->getExternalId()}"]);
 
             return GetResponse::fromResponse($this->query($subnet, $query));
         } catch (\Throwable $e) {
@@ -47,8 +56,7 @@ class MikrotikManager implements ManagerInterface
     {
         try {
             $query = (new Query(ClientInterface::API_URL_ADDRESS_LIST_ADD))
-                ->setAttributes(["=list={$subnet->getGroupName()}", "=address={$subnet->getSubnet()}"])
-            ;
+                ->setAttributes(["=list={$subnet->getGroupName()}", "=address={$subnet->getSubnet()}"]);
 
             return AddResponse::fromResponse($this->query($subnet, $query));
         } catch (\Throwable $e) {
@@ -61,8 +69,7 @@ class MikrotikManager implements ManagerInterface
         try {
             $query = (new Query(ClientInterface::API_URL_ADDRESS_LIST_UPDATE))
                 ->setAttributes(["=list={$subnet->getGroupName()}", "=address={$subnet->getSubnet()}"])
-                ->equal('.id', $subnet->getExternalId())
-            ;
+                ->equal('.id', $subnet->getExternalId());
 
             $this->query($subnet, $query);
         } catch (\Throwable $e) {
@@ -74,8 +81,7 @@ class MikrotikManager implements ManagerInterface
     {
         try {
             $query = (new Query(ClientInterface::API_URL_ADDRESS_LIST_REMOVE))
-                ->equal('.id', $subnet->getExternalId())
-            ;
+                ->equal('.id', $subnet->getExternalId());
 
             $this->query($subnet, $query);
         } catch (\Throwable $e) {

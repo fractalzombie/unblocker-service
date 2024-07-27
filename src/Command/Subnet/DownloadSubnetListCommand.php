@@ -2,6 +2,17 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Command\Subnet;
 
 use Fp\Collections\ArrayList;
@@ -43,10 +54,10 @@ final class DownloadSubnetListCommand extends Command
                 ->map(Provider::fromProvider(...))
                 ->map(Request::fromProvider(...))
                 ->map($this->downloader->download(...))
-                ->reduce(array_merge(...))
-                ->toArrayList(ArrayList::collect(...))
-                ->unique(Subnet::unique(...))
-            ;
+                ->toMergedArray();
+
+            $subnetList = ArrayList::collect($subnetList)
+                ->uniqueBy(Subnet::unique(...));
 
             $ui->info("Downloaded {$subnetList->count()} subnets");
             $ui->info('Start send messages for adding subnets to database');
@@ -56,8 +67,7 @@ final class DownloadSubnetListCommand extends Command
                 ->appended(NotifyEventMessage::fromMessage(
                     "All {$subnetList->count()} messages was sent to event bus",
                     $this->clockManipulator->nowAsFormatted(),
-                ))->tap($this->publisher->publish(...))
-            ;
+                ))->tap($this->publisher->publish(...));
 
             $ui->success("All {$subnetList->count()} messages was sent to event bus");
 

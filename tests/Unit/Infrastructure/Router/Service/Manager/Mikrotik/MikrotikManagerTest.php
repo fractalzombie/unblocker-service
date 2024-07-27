@@ -2,6 +2,16 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
 use Psr\EventDispatcher\EventDispatcherInterface;
 use UnBlockerService\Domain\Router\Service\Client\Mikrotik\ClientInterface;
 use UnBlockerService\Domain\Router\Service\Client\Mikrotik\Exception\ClientException;
@@ -33,13 +43,11 @@ test('Test MikrotikManager', function (string $testMethod, ?array $cResponse, ?o
         : $routerClient
             ->expects($this->once())
             ->method('query')
-            ->willReturn($cResponse)
-    ;
+            ->willReturn($cResponse);
 
     $eventDispatcher
         ->expects($this->once())
-        ->method('dispatch')
-    ;
+        ->method('dispatch');
 
     if ($isClientThrows) {
         $this->expectException(ManagerException::class);
@@ -52,7 +60,7 @@ test('Test MikrotikManager', function (string $testMethod, ?array $cResponse, ?o
             ->and($subnetResponse->getAddress())->toBe(TestHelper::SUBNET)
             ->and($subnetResponse->getId())->toBe(TestHelper::ROUTER_ID)
             ->and($subnetResponse->isDynamic())->toBe(false)
-            ->and($subnetResponse->getCreatedAt())->toBeInstanceOf(\DateTimeInterface::class),
+            ->and($subnetResponse->getCreatedAt())->toBeInstanceOf(DateTimeInterface::class),
         'addSubnet' => expect($subnetResponse)->toBeInstanceOf(AddResponse::class)
             ->and($subnetResponse->getId())->toBe(TestHelper::ROUTER_ID),
         default => expect($subnetResponse)->toBeNull(),

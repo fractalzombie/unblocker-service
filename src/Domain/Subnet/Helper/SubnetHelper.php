@@ -2,20 +2,31 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Domain\Subnet\Helper;
 
 use JetBrains\PhpStorm\Immutable;
-use UnBlockerService\Infrastructure\Doctrine\Trait\HasPrivateConstructor;
+use UnBlockerService\Infrastructure\Doctrine\Trait\PrivateConstructorTrait;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\UpdateEventMessage;
 
 #[Immutable]
 final class SubnetHelper
 {
-    use HasPrivateConstructor;
+    use PrivateConstructorTrait;
 
-    public const SEPARATOR = '/';
-    private const MASK_MAX_NUMBER = 32;
-    private const MASK_MIN_NUMBER = 0;
+    public const string SEPARATOR = '/';
+    private const int MASK_MAX_NUMBER = 32;
+    private const int MASK_MIN_NUMBER = 0;
 
     public static function makeSubnets(string $address, int $mask): string
     {

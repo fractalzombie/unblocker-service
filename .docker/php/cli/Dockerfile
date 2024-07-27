@@ -1,4 +1,4 @@
-FROM php:8.2-cli-alpine
+FROM php:8.3-cli-alpine
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV PATH=$HOME/.composer/vendor/bin:$PATH

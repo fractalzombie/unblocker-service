@@ -2,27 +2,37 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Infrastructure\Monolog\Logger;
 
-use FRZB\Component\DependencyInjection\Attribute\AsService;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\Messenger\Event\WorkerMessageFailedEvent;
 use Symfony\Component\Messenger\Event\WorkerMessageHandledEvent;
 use UnBlockerService\Domain\Common\Logger\ContextExtractor\ContextExtractorLocatorInterface;
 use UnBlockerService\Domain\Common\Logger\HandlerLoggerInterface;
 
-#[AsService]
+#[Autoconfigure]
 class HandlerLogger implements HandlerLoggerInterface
 {
-    private const MT_INFO = '[HANDLER] [INFO] [MESSAGE: {message_class}] [ID: {id}] [EXTERNAL_ID: {external_id}] [STATE: {state}] [SUBNET: {subnet}] [GROUP_NAME: {group_name}]';
-    private const MT_ERROR = '[HANDLER] [ERROR] [EXCEPTION_CLASS: {exception_class}] [EXCEPTION_MESSAGE: {exception_message}] [ID: {id}] [EXTERNAL_ID: {external_id}] [STATE: {state}] [SUBNET: {subnet}] [GROUP_NAME: {group_name}]';
-    private const MT_DATE_TIME_FORMAT = \DateTimeInterface::RFC3339_EXTENDED;
+    private const string MT_INFO = '[HANDLER] [INFO] [MESSAGE: {message_class}] [ID: {id}] [EXTERNAL_ID: {external_id}] [STATE: {state}] [SUBNET: {subnet}] [GROUP_NAME: {group_name}]';
+    private const string MT_ERROR = '[HANDLER] [ERROR] [EXCEPTION_CLASS: {exception_class}] [EXCEPTION_MESSAGE: {exception_message}] [ID: {id}] [EXTERNAL_ID: {external_id}] [STATE: {state}] [SUBNET: {subnet}] [GROUP_NAME: {group_name}]';
+    private const string MT_DATE_TIME_FORMAT = \DateTimeInterface::RFC3339_EXTENDED;
 
     public function __construct(
         private readonly LoggerInterface $handlerLogger,
         private readonly ContextExtractorLocatorInterface $contextExtractorLocator,
-    ) {
-    }
+    ) {}
 
     public function info(WorkerMessageHandledEvent $event): void
     {

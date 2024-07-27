@@ -1,12 +1,17 @@
 {
-    "doctrine/annotations": {
-        "version": "1.14",
+    "api-platform/core": {
+        "version": "3.3",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
-            "version": "1.10",
-            "ref": "64d8583af5ea57b7afa4aba4b159907f3a148b05"
-        }
+            "version": "3.3",
+            "ref": "74b45ac570c57eb1fbe56c984091a9ff87e18bab"
+        },
+        "files": [
+            "config/packages/api_platform.yaml",
+            "config/routes/api_platform.yaml",
+            "src/ApiResource/.gitignore"
+        ]
     },
     "doctrine/doctrine-bundle": {
         "version": "2.8",
@@ -50,12 +55,6 @@
     "frzb/dependency-injection": {
         "version": "v1.6.3"
     },
-    "frzb/php-doc-reader": {
-        "version": "v1.0.1"
-    },
-    "frzb/request-mapper": {
-        "version": "v1.10.1"
-    },
     "frzb/transactional-messenger": {
         "version": "v1.0.8"
     },
@@ -70,6 +69,18 @@
         "files": [
             "config/packages/nelmio_api_doc.yaml",
             "config/routes/nelmio_api_doc.yaml"
+        ]
+    },
+    "nelmio/cors-bundle": {
+        "version": "2.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.5",
+            "ref": "6bea22e6c564fba3a1391615cada1437d0bde39c"
+        },
+        "files": [
+            "config/packages/nelmio_cors.yaml"
         ]
     },
     "phpunit/phpunit": {

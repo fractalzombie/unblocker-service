@@ -2,6 +2,17 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Tests\Unit\Infrastructure\Monolog\Logger\ContextExtractor;
 
 use UnBlockerService\Domain\Common\Service\Manipulator\ClassManipulatorInterface;
@@ -18,20 +29,17 @@ test('It extract context from AddEventMessage', function (AddEventMessage $event
     $classManipulator
         ->expects($exception ? $this->once() : $this->never())
         ->method('getShortName')
-        ->willReturn('LogicException')
-    ;
+        ->willReturn('LogicException');
 
-    $clockManipulator
-        ->expects($this->exactly(2))
-        ->method('defaultFormat')
-        ->willReturn($clockFormat)
-    ;
+//    $clockManipulator
+//        ->expects($this->exactly(2))
+//        ->method('defaultFormat')
+//        ->willReturn($clockFormat);
 
     $context = $contextExtractor->extract($eventMessage, $exception);
 
     expect($context->getContext())->toBe($expectedContext)
-        ->and($context->getMessage())->toBe($message)
-    ;
+        ->and($context->getMessage())->toBe($message);
 })->with(function () {
     $target = TestHelper::makeAddEventMessage();
     $exception = new \LogicException(TestHelper::MESSAGE);
@@ -42,13 +50,11 @@ test('It extract context from AddEventMessage', function (AddEventMessage $event
         'message' => '[HANDLER] [INFO] [MESSAGE: AddEventMessage] [MESSAGE_ID: {message_id}] [COUNTRY: {country}] [STATE: {state}] [SUBNET: {subnet}] [GROUP_NAME: {group_name}]',
         'clockFormat' => $clockFormat,
         'expectedContext' => [
-            'message_id' => (string) $target->id,
+            'message_id' => $target->id,
             'country' => $target->country,
             'subnet' => "{$target->address}/{$target->mask}",
             'event_type' => $target->eventType->value,
             'state' => $target->state->value,
-            'created_at' => $target->createdAt->format($clockFormat),
-            'updated_at' => $target->updatedAt->format($clockFormat),
         ],
         'isExtractable' => true,
         'exception' => null,
@@ -59,13 +65,11 @@ test('It extract context from AddEventMessage', function (AddEventMessage $event
         'message' => '[HANDLER] [ERROR] [MESSAGE: AddEventMessage] [MESSAGE_ID: {message_id}] [EXCEPTION_CLASS: {exception_class}] [EXCEPTION_MESSAGE: {exception_message}] [COUNTRY: {country}] [STATE: {state}] [SUBNET: {subnet}] [GROUP_NAME: {group_name}]',
         'clockFormat' => $clockFormat,
         'expectedContext' => [
-            'message_id' => (string) $target->id,
+            'message_id' => $target->id,
             'country' => $target->country,
             'subnet' => "{$target->address}/{$target->mask}",
             'event_type' => $target->eventType->value,
             'state' => $target->state->value,
-            'created_at' => $target->createdAt->format($clockFormat),
-            'updated_at' => $target->updatedAt->format($clockFormat),
             'exception_class' => 'LogicException',
             'exception_message' => $exception->getMessage(),
             'exception_trace' => $exception->getTraceAsString(),

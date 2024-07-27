@@ -2,19 +2,30 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Infrastructure\Common\Helper;
 
 use JetBrains\PhpStorm\Immutable;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Contracts\HttpClient\ResponseInterface;
-use UnBlockerService\Infrastructure\Doctrine\Trait\HasPrivateConstructor;
+use UnBlockerService\Infrastructure\Doctrine\Trait\PrivateConstructorTrait;
 
 #[Immutable]
 final class HeaderHelper
 {
-    use HasPrivateConstructor;
+    use PrivateConstructorTrait;
 
-    public static function all(HeaderBag|array $headers): array
+    public static function all(array|HeaderBag $headers): array
     {
         $headers = \is_array($headers) ? new HeaderBag($headers) : $headers;
 

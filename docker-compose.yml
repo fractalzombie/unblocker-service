@@ -1,5 +1,3 @@
-version: '3.10'
-
 services:
   php-fpm: &php-fpm-container
     build: .docker/php/fpm
@@ -39,17 +37,17 @@ services:
     depends_on:
       - php-fpm
 
-  cron:
-    <<: *php-fpm-container
-    restart: always
-    build: .docker/php/cli
-    environment:
-      <<: *php-fpm-environment
-    entrypoint: '/usr/sbin/crond -f -l 2 -L /dev/stdout'
-    depends_on:
-      - php-fpm
-    volumes:
-      - .docker/cron:/var/spool/cron/crontabs:ro
+#  cron:
+#    <<: *php-fpm-container
+#    restart: always
+#    build: .docker/php/cli
+#    environment:
+#      <<: *php-fpm-environment
+#    entrypoint: '/usr/sbin/crond -f -l 2 -L /dev/stdout'
+#    depends_on:
+#      - php-fpm
+#    volumes:
+#      - .docker/cron:/var/spool/cron/crontabs:ro
 
   proxy:
     build: .docker/proxy
@@ -84,8 +82,12 @@ services:
     volumes:
       - rabbitmq-lib:/var/lib/rabbitmq
       - rabbitmq-log:/var/log/rabbitmq
-
+    
 volumes:
   database:
   rabbitmq-lib:
   rabbitmq-log:
+
+networks:
+  private:
+  public:

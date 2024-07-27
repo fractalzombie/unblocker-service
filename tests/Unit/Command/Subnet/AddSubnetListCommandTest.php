@@ -2,6 +2,17 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Tests\Unit\Command\Subnet;
 
 use Doctrine\ORM\EntityNotFoundException;
@@ -30,23 +41,19 @@ test('Test AddSubnetListCommand', function (array $subnets, string $country, int
         : $repository
             ->expects($this->once())
             ->method('getByStates')
-            ->willReturn($subnets)
-    ;
+            ->willReturn($subnets);
 
     $eventPublisher
         ->expects($expectedException ? $this->never() : $this->exactly($countOfSubnetListWithNotifierEvent))
-        ->method('publish')
-    ;
+        ->method('publish');
 
-    $clockManipulator
-        ->expects($expectedException ? $this->never() : $this->once())
-        ->method('nowAsFormatted')
-        ->willReturn((new \DateTimeImmutable())->format(\DateTimeInterface::RFC3339))
-    ;
+//    $clockManipulator
+//        ->expects($expectedException ? $this->never() : $this->once())
+//        ->method('nowAsFormatted')
+//        ->willReturn((new \DateTimeImmutable())->format(\DateTimeInterface::RFC3339));
 
     $executedCommandStatus = (new AddSubnetListCommand($repository, $eventPublisher, $clockManipulator))
-        ->run($input, $output)
-    ;
+        ->run($input, $output);
 
     expect($executedCommandStatus)->toBe($expectedCommandStatus);
 })->with(function () {
