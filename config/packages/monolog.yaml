@@ -19,6 +19,7 @@ when@dev: &when@dev
       - publisher
       - downloader
       - subnet_manipulator
+      - subnet_provider
       - listener
       - exception
 
@@ -108,6 +109,12 @@ when@dev: &when@dev
         path: "%kernel.logs_dir%/%kernel.environment%.subnet_manipulator.log"
         channels:
           - subnet_manipulator
+      subnet_provider:
+        level: "%monolog.logger.level%"
+        type: stream
+        path: "%kernel.logs_dir%/%kernel.environment%.subnet_provider.log"
+        channels:
+          - subnet_provider
       listener:
         level: "%monolog.logger.level%"
         type: stream

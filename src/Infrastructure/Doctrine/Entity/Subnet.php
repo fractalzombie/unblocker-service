@@ -2,13 +2,31 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Infrastructure\Doctrine\Entity;
 
+use ApiPlatform\Metadata as API;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 use UnBlockerService\Domain\Subnet\Entity\SubnetInterface;
 use UnBlockerService\Domain\Subnet\Enum\SubnetState;
 use UnBlockerService\Domain\Subnet\Helper\SubnetHelper;
+use UnBlockerService\Domain\Subnet\Processor\PostSubnetProcessor;
+use UnBlockerService\Domain\Subnet\Provider\SubnetDataProvider;
+use UnBlockerService\Domain\Subnet\Request\PostSubnetRequest;
+use UnBlockerService\Domain\Subnet\Response\GetSubnetResponse;
+use UnBlockerService\Domain\Subnet\Response\PostSubnetResponse;
 use UnBlockerService\Infrastructure\Doctrine\Repository\SubnetRepository;
 use UnBlockerService\Infrastructure\Doctrine\Trait\HasCountry;
 use UnBlockerService\Infrastructure\Doctrine\Trait\HasCreatedAt;
@@ -16,6 +34,23 @@ use UnBlockerService\Infrastructure\Doctrine\Trait\HasIdentifier;
 use UnBlockerService\Infrastructure\Doctrine\Trait\HasUpdatedAt;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\CreateEventMessage;
 
+#[API\ApiResource(
+    operations: [
+        new API\GetCollection(
+            output: GetSubnetResponse::class,
+            provider: SubnetDataProvider::class,
+        ),
+        new API\Get(
+            output: GetSubnetResponse::class,
+            provider: SubnetDataProvider::class,
+        ),
+        new API\Post(
+            input: PostSubnetRequest::class,
+            output: PostSubnetResponse::class,
+            processor: PostSubnetProcessor::class,
+        ),
+    ],
+)]
 #[ORM\UniqueConstraint(fields: ['address', 'mask'])]
 #[ORM\Entity(repositoryClass: SubnetRepository::class)]
 final class Subnet implements SubnetInterface
@@ -25,10 +60,10 @@ final class Subnet implements SubnetInterface
     use HasIdentifier;
     use HasUpdatedAt;
 
-    private const MAX_LENGTH_EXTERNAL_ID = 32;
-    private const MAX_LENGTH_OF_ADDRESS = 15;
-    private const MAX_LENGTH_OF_MASK = 2;
-    private const MAX_LENGTH_OF_STATE = 16;
+    private const int MAX_LENGTH_EXTERNAL_ID = 32;
+    private const int MAX_LENGTH_OF_ADDRESS = 15;
+    private const int MAX_LENGTH_OF_MASK = 2;
+    private const int MAX_LENGTH_OF_STATE = 16;
 
     #[ORM\Column(type: Types::STRING, length: self::MAX_LENGTH_EXTERNAL_ID, unique: true, nullable: true)]
     private ?string $externalId;
@@ -50,6 +85,7 @@ final class Subnet implements SubnetInterface
         \DateTimeInterface $updatedAt,
         SubnetState $state = SubnetState::New,
     ) {
+        $this->id = Uuid::v4();
         $this->address = $address;
         $this->externalId = null;
         $this->mask = $mask;

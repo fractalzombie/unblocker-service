@@ -2,6 +2,17 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Tests\Helper;
 
 use Fp\Collections\ArrayList;
@@ -72,7 +83,7 @@ final readonly class TestHelper
         $response = '.id=%s;address=%s;creation-time=%s;dynamic=%s;list=%s';
         $attributes = [self::ROUTER_ID, self::SUBNET, (new \DateTimeImmutable())->format('M/d/Y H:i:s'), false, self::GROUP_NAME];
 
-        return sprintf($response, ...$attributes);
+        return \sprintf($response, ...$attributes);
     }
 
     /** @return string[] */
@@ -99,8 +110,7 @@ final readonly class TestHelper
                 new \DateTimeImmutable(),
                 SubnetState::Created,
             ))->setId(Uuid::v4()))
-            ->toArray()
-        ;
+            ->toArray();
     }
 
     /**
@@ -138,8 +148,7 @@ final readonly class TestHelper
         try {
             (new \ReflectionClass($subnet))
                 ->getProperty('id')
-                ->setValue($subnet, $id ?? Uuid::v4())
-            ;
+                ->setValue($subnet, $id ?? Uuid::v4());
         } catch (\ReflectionException) {
         }
 

@@ -2,22 +2,32 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Action\Subnet;
 
-use FRZB\Component\RequestMapper\Attribute\RequestBody;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
+use Symfony\Component\Routing\Attribute\Route;
 use UnBlockerService\Domain\Common\Enum\HttpMethod;
 use UnBlockerService\Domain\Subnet\Request\GetSubnetRequest;
 
 #[AsController]
 final class GetSubnetAction
 {
-    #[RequestBody(GetSubnetRequest::class, validationGroups: [GetSubnetRequest::class])]
     #[Route(name: self::class, methods: [HttpMethod::GET])]
-    public function __invoke(GetSubnetRequest $request): Response
+    public function __invoke(#[MapRequestPayload(GetSubnetRequest::class)] GetSubnetRequest $request): Response
     {
         return new JsonResponse([]);
     }

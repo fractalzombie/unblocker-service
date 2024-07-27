@@ -2,6 +2,17 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Infrastructure\Subnet\Service\EventMessageResolver;
 
 use Fp\Collections\ArrayList;
@@ -19,7 +30,8 @@ final readonly class EventMessageResolver implements EventMessageResolverInterfa
     private readonly ArrayList $resolvers;
 
     public function __construct(
-        #[TaggedIterator(EventResolver::class)] iterable $resolvers,
+        #[TaggedIterator(EventResolver::class)]
+        iterable $resolvers,
     ) {
         $this->resolvers = ArrayList::collect($resolvers);
     }
@@ -29,8 +41,7 @@ final readonly class EventMessageResolver implements EventMessageResolverInterfa
         try {
             $this->resolvers
                 ->filter(static fn (EventResolver $resolver) => $resolver->canResolve($message))
-                ->tap(static fn (EventResolver $resolver) => $resolver($message))
-            ;
+                ->tap(static fn (EventResolver $resolver) => $resolver($message));
         } catch (\Throwable $e) {
             throw EventMessageResolverException::fromThrowable($e);
         }

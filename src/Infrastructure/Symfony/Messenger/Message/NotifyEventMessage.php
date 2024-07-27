@@ -2,6 +2,17 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Infrastructure\Symfony\Messenger\Message;
 
 use UnBlockerService\Domain\Subnet\Enum\EventType;
@@ -20,7 +31,7 @@ final readonly class NotifyEventMessage extends EventMessage
 
     public static function fromMessage(string $message, string $datetime): self
     {
-        $message = sprintf(self::MESSAGE_TEMPLATE, $datetime, $message);
+        $message = \sprintf(self::MESSAGE_TEMPLATE, $datetime, $message);
 
         return new self($message, EventType::Notify);
     }

@@ -1,0 +1,41 @@
+api_platform:
+    title: UnBlocker Service
+    description: 'Service that unblocks network subnets for routers'
+    version: 1.0.0
+    formats:
+        json: ['application/json']
+        jsonld: ['application/ld+json']
+    docs_formats:
+        jsonld: ['application/ld+json']
+        jsonopenapi: ['application/vnd.openapi+json']
+        html: ['text/html']
+    defaults:
+        stateless: true
+        cache_headers:
+            vary: ['Content-Type', 'Authorization', 'Origin']
+        extra_properties:
+            standard_put: true
+            rfc_7807_compliant_errors: true
+        pagination_client_enabled: true
+        pagination_enabled: true
+        pagination_items_per_page: 5
+        pagination_maximum_items_per_page: 50
+        collection:
+            pagination:
+                enabled_parameter_name: pagination
+                page_parameter_name: page
+                items_per_page_parameter_name: perPage
+    path_segment_name_generator: 'api_platform.path_segment_name_generator.dash'
+    keep_legacy_inflector: false
+    use_symfony_listeners: true
+    resource_class_directories:
+        - '%kernel.project_dir%/src/Infrastructure/Doctrine/Entity'
+    openapi:
+        contact:
+            name: Mykhailo Shtanko
+            url: https://github.com/fractalzombie
+            email: fractalzombie@gmail.com
+        termsOfService:
+        license:
+            name: MIT
+            url: https://github.com/fractalzombie/unblocker-service/blob/main/LICENCE.md

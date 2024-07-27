@@ -2,6 +2,17 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Infrastructure\Common\Service\Manipulator;
 
 use Fp\Collections\ArrayList;
@@ -14,17 +25,14 @@ class TargetManipulator implements TargetManipulatorInterface
 {
     public const DEFAULT_SHORT_CLASS_NAME = 'NoReflectionClass';
 
-    /** {@inheritdoc} */
     public function getAttributesOf(object|string $target, string $attributeClass): array
     {
         return ArrayList::collect($this->getReflectionAttributes($target, $attributeClass))
             ->map(static fn (\ReflectionAttribute $attribute) => $attribute->newInstance())
-            ->toArray()
-        ;
+            ->toArray();
     }
 
-    /** {@inheritdoc} */
-    public function getReflectionAttributes(string|object $target, string $attributeClass): array
+    public function getReflectionAttributes(object|string $target, string $attributeClass): array
     {
         try {
             $attributes = Option::fromNullable($this->getReflectionOf($target))
@@ -33,8 +41,7 @@ class TargetManipulator implements TargetManipulatorInterface
                     ...Option::fromNullable($this->getParentReflectionOf($target))
                         ->map(fn (\ReflectionClass $tprClass) => $this->getReflectionAttributes($tprClass, $attributeClass))
                         ->getOrElse([]),
-                ])->getOrElse([])
-            ;
+                ])->getOrElse([]);
         } catch (\Throwable $e) {
             throw ManipulatorException::fromThrowable($e);
         }
@@ -43,11 +50,9 @@ class TargetManipulator implements TargetManipulatorInterface
             ->unique(fn (\ReflectionAttribute $ra) => Arr::join($ra->getArguments(), ';'))
             ->sorted(fn (\ReflectionAttribute $ral, \ReflectionAttribute $rar) => Arr::join($rar->getArguments(), ';') <=> Arr::join($ral->getArguments(), ';'))
             ->reverse()
-            ->toArray()
-        ;
+            ->toArray();
     }
 
-    /** {@inheritdoc} */
     public function getPropertiesOf(object|string $target): array
     {
         $properties = Option::fromNullable($this->getReflectionOf($target))
@@ -61,18 +66,15 @@ class TargetManipulator implements TargetManipulatorInterface
         return ArrayList::collect($properties)
             ->unique(fn (\ReflectionProperty $rp) => $rp->getName())
             ->reverse()
-            ->toArray()
-        ;
+            ->toArray();
     }
 
-    /** {@inheritdoc} */
     public function getShortName(object|string $target): string
     {
         return $this->getReflectionOf($target)?->getShortName() ?: self::DEFAULT_SHORT_CLASS_NAME;
     }
 
-    /** {@inheritdoc} */
-    public function getReflectionOf(string|object $target): ?\ReflectionClass
+    public function getReflectionOf(object|string $target): ?\ReflectionClass
     {
         try {
             return match (true) {
@@ -85,7 +87,6 @@ class TargetManipulator implements TargetManipulatorInterface
         }
     }
 
-    /** {@inheritdoc} */
     public function getParentReflectionOf(object|string $target): ?\ReflectionClass
     {
         return match (true) {

@@ -2,9 +2,19 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Infrastructure\Monolog\Logger\ContextExtractor\Extractor;
 
-use FRZB\Component\DependencyInjection\Attribute\AsAlias;
 use FRZB\Component\DependencyInjection\Attribute\AsService;
 use FRZB\Component\DependencyInjection\Attribute\AsTagged;
 use UnBlockerService\Domain\Common\Logger\ContextExtractor\Extractor\ContextExtractorInterface;
@@ -23,8 +33,7 @@ class AddEventMessageContextExtractor implements ContextExtractorInterface
     public function __construct(
         private readonly ClassManipulatorInterface $classManipulator,
         private readonly ClockManipulatorInterface $clockManipulator,
-    ) {
-    }
+    ) {}
 
     public function extract(AddEventMessage $context, ?\Throwable $exception = null): ContextInterface
     {

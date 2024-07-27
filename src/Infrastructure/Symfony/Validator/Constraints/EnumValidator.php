@@ -2,6 +2,17 @@
 
 declare(strict_types=1);
 
+/**
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *
+ * Copyright (c) 2024 Mykhailo Shtanko fractalzombie@gmail.com
+ *
+ * For the full copyright and license information, please view the LICENSE.MD
+ * file that was distributed with this source code.
+ */
+
 namespace UnBlockerService\Infrastructure\Symfony\Validator\Constraints;
 
 use Fp\Collections\ArrayList;
@@ -54,8 +65,7 @@ class EnumValidator extends ConstraintValidator
             ->setParameter('{{ value }}', $this->formatValue($value))
             ->setParameter('{{ choices }}', $this->formatValues($constraint->choices))
             ->setCode(Choice::NO_SUCH_CHOICE_ERROR)
-            ->addViolation()
-        ;
+            ->addViolation();
     }
 
     private function buildMinLimitViolation(Enum $constraint): void
@@ -64,8 +74,7 @@ class EnumValidator extends ConstraintValidator
             ->setParameter('{{ limit }}', (string) $constraint->min)
             ->setPlural((int) $constraint->min)
             ->setCode(Choice::TOO_FEW_ERROR)
-            ->addViolation()
-        ;
+            ->addViolation();
     }
 
     private function buildMaxLimitViolation(Enum $constraint): void
@@ -74,8 +83,7 @@ class EnumValidator extends ConstraintValidator
             ->setParameter('{{ limit }}', (string) $constraint->max)
             ->setPlural((int) $constraint->max)
             ->setCode(Choice::TOO_MANY_ERROR)
-            ->addViolation()
-        ;
+            ->addViolation();
     }
 
     private function buildMultipleViolation(mixed $value, Enum $constraint): void
@@ -85,7 +93,6 @@ class EnumValidator extends ConstraintValidator
             ->setParameter('{{ choices }}', $this->formatValues($constraint->choices))
             ->setCode(Choice::NO_SUCH_CHOICE_ERROR)
             ->setInvalidValue($value)
-            ->addViolation()
-        ;
+            ->addViolation();
     }
 }
