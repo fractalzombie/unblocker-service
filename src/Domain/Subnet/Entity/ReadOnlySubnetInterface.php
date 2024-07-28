@@ -23,7 +23,7 @@ use UnBlockerService\Domain\Subnet\Enum\SubnetState;
 
 interface ReadOnlySubnetInterface extends ReadOnlyIdentifierInterface, ReadOnlyCountryInterface, ReadOnlyCreatedAtInterface, ReadOnlyUpdatedAtInterface
 {
-    public const SEPARATOR = '/';
+    final public const string SEPARATOR = '/';
 
     public function getExternalId(): ?string;
 

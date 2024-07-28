@@ -1,41 +1,80 @@
 api_platform:
-    title: UnBlocker Service
-    description: 'Service that unblocks network subnets for routers'
-    version: 1.0.0
-    formats:
-        json: ['application/json']
-        jsonld: ['application/ld+json']
-    docs_formats:
-        jsonld: ['application/ld+json']
-        jsonopenapi: ['application/vnd.openapi+json']
-        html: ['text/html']
-    defaults:
-        stateless: true
-        cache_headers:
-            vary: ['Content-Type', 'Authorization', 'Origin']
-        extra_properties:
-            standard_put: true
-            rfc_7807_compliant_errors: true
-        pagination_client_enabled: true
-        pagination_enabled: true
-        pagination_items_per_page: 5
-        pagination_maximum_items_per_page: 50
-        collection:
-            pagination:
-                enabled_parameter_name: pagination
-                page_parameter_name: page
-                items_per_page_parameter_name: perPage
-    path_segment_name_generator: 'api_platform.path_segment_name_generator.dash'
-    keep_legacy_inflector: false
-    use_symfony_listeners: true
-    resource_class_directories:
-        - '%kernel.project_dir%/src/Infrastructure/Doctrine/Entity'
-    openapi:
-        contact:
-            name: Mykhailo Shtanko
-            url: https://github.com/fractalzombie
-            email: fractalzombie@gmail.com
-        termsOfService:
-        license:
-            name: MIT
-            url: https://github.com/fractalzombie/unblocker-service/blob/main/LICENCE.md
+  title: UnBlocker Service
+  description: 'Service that unblocks network subnets for routers'
+  version: 1.0.0
+  enable_swagger_ui: true
+  enable_re_doc: true
+  
+  path_segment_name_generator: 'api_platform.path_segment_name_generator.underscore'
+  keep_legacy_inflector: false
+  use_symfony_listeners: true
+  
+  openapi:
+    contact:
+      name: Mykhailo Shtanko
+      url: https://github.com/fractalzombie
+      email: fractalzombie@gmail.com
+    termsOfService:
+    license:
+      name: MIT
+      url: https://github.com/fractalzombie/unblocker-service/blob/main/LICENCE.md
+  
+  formats:
+    json: [ 'application/json' ]
+    jsonld: [ 'application/ld+json' ]
+    jsonhal: [ 'application/hal+json' ]
+    
+  patch_formats:
+    json: [ 'application/merge-patch+json' ]
+    jsonapi: [ 'application/vnd.api+json' ]
+    
+  docs_formats:
+    json: [ 'application/json' ]
+    jsonld: [ 'application/ld+json' ]
+    jsonopenapi: [ 'application/vnd.openapi+json' ]
+    html: [ 'text/html' ]
+    
+  error_formats:
+    jsonproblem:
+      mime_types: [ 'application/problem+json' ]
+    jsonld:
+      mime_types: [ 'application/ld+json' ]
+    json:
+      mime_types: [ 'application/json' ]
+    
+  doctrine:
+    enabled: true
+    
+  messenger:
+    enabled: true
+    
+  defaults:
+    stateless: true
+    cache_headers:
+      vary: [ 'Content-Type', 'Authorization', 'Origin', 'Accept' ]
+      etag: true
+      max_age: 3600
+      shared_max_age: 3600
+      invalidation:
+        xkey:
+          glue: ','
+    extra_properties:
+      standard_put: true
+      rfc_7807_compliant_errors: false
+
+    collectDenormalizationErrors: true
+    pagination_enabled: true
+    pagination_items_per_page: 5
+    pagination_maximum_items_per_page: 50
+    pagination_client_items_per_page: true
+    
+    collection:
+      pagination:
+        client_items_per_page: true
+        page_parameter_name: 'page'
+        items_per_page_parameter_name: 'perPage'
+  
+  resource_class_directories:
+    #        - '%kernel.project_dir%/src/Infrastructure/Doctrine/Entity'
+    #        - '%kernel.project_dir%/src/Infrastructure/Request'
+    - '%kernel.project_dir%/src/Resource'

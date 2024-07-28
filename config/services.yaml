@@ -2,12 +2,12 @@ services: &services
   _defaults: &defaults
     autowire: true
     autoconfigure: true
-
+  
   UnBlockerService\:
     resource: '../src/**'
     exclude:
       - '../src/**/{Attribute,Util,Trait,Helper,Enum}'
-      - '../src/**/{Event,Request,Response,Contract,Model,Entity,ValueObject,Message,Data,DTO}'
+      - '../src/**/{Event,Request,Response,Contract,Constraint,Model,Entity,ValueObject,Message,Data,DTO}'
       - '../src/**/{Exception,UseCase,CompilerPass,DependencyInjection}'
       - '../src/**/{Tests}'
       - '../src/**/{*Kernel.php}'
@@ -18,6 +18,6 @@ when@test:
     _defaults:
       <<: *defaults
       public: true
-
+    
     Symfony\Contracts\HttpClient\HttpClientInterface:
       synthetic: true

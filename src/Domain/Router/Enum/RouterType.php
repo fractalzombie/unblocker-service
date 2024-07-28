@@ -19,5 +19,5 @@ enum RouterType: string
 {
     case Mikrotik = self::MIKROTIK;
 
-    public const MIKROTIK = 'mikrotik';
+    public const string MIKROTIK = 'mikrotik';
 }

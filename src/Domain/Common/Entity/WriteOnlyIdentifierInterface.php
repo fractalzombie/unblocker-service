@@ -19,5 +19,5 @@ use Symfony\Component\Uid\Uuid;
 
 interface WriteOnlyIdentifierInterface
 {
-    public function setId(Uuid $id): self;
+    public function setId(Uuid $id): static;
 }

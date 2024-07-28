@@ -16,20 +16,26 @@ declare(strict_types=1);
 namespace UnBlockerService\Domain\Doctrine\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface as BaseServiceEntityRepositoryInterface;
+use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * @template TEntity
+ * @psalm-template TEntity of object
  *
- * @extends BaseServiceEntityRepositoryInterface<TEntity>
+ * @template-extends BaseServiceEntityRepositoryInterface<TEntity>
  */
 interface ServiceEntityRepositoryInterface extends BaseServiceEntityRepositoryInterface
 {
-    public function persist(object $entity, bool $flush = true): static;
+    /** @psalm-param TEntity $entity */
+    public function persist(object $entity): static;
 
-    public function remove(object $entity, bool $flush = true): static;
+    /** @psalm-param TEntity $entity */
+    public function remove(object $entity): static;
 
-    public function update(object $entity, bool $flush = true): static;
+    /** @psalm-param TEntity $entity */
+    public function refresh(object $entity, LockMode $lockMode = LockMode::NONE): static;
+
+    public function flush(): static;
 
     public function getRepositoryEntityManager(): EntityManagerInterface;
 }

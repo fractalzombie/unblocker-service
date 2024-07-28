@@ -16,21 +16,21 @@ declare(strict_types=1);
 namespace UnBlockerService\Infrastructure\Subnet\Service\EventMessageResolver;
 
 use Fp\Collections\ArrayList;
-use FRZB\Component\DependencyInjection\Attribute\AsService;
-use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use UnBlockerService\Domain\Subnet\Message\EventMessage;
 use UnBlockerService\Domain\Subnet\Service\TransitionEventResolver\EventMessageResolverInterface;
 use UnBlockerService\Domain\Subnet\Service\TransitionEventResolver\Exception\EventMessageResolverException;
 use UnBlockerService\Domain\Subnet\Service\TransitionEventResolver\Resolver\EventResolverInterface as EventResolver;
 
-#[AsService]
+#[Autoconfigure]
 final readonly class EventMessageResolver implements EventMessageResolverInterface
 {
     /** @var ArrayList<EventResolver> */
-    private readonly ArrayList $resolvers;
+    private ArrayList $resolvers;
 
     public function __construct(
-        #[TaggedIterator(EventResolver::class)]
+        #[AutowireIterator(EventResolver::class)]
         iterable $resolvers,
     ) {
         $this->resolvers = ArrayList::collect($resolvers);

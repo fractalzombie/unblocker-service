@@ -15,18 +15,18 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Infrastructure\Monolog\Logger;
 
-use FRZB\Component\DependencyInjection\Attribute\AsService;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use UnBlockerService\Domain\Common\Service\Manipulator\ClassManipulatorInterface;
 use UnBlockerService\Domain\Router\Logger\RouterManagerLoggerInterface;
 use UnBlockerService\Domain\Subnet\Entity\ReadOnlySubnetInterface;
 
-#[AsService]
+#[Autoconfigure]
 class RouterManagerLogger implements RouterManagerLoggerInterface
 {
-    private const MT_INFO = '[ROUTER_MANAGER] [INFO] [ID: {id}] [EXTERNAL_ID: {external_id}] [STATE: {state}] [SUBNET: {subnet}] [GROUP_NAME: {group_name}]';
-    private const MT_ERROR = '[ROUTER_MANAGER] [ERROR] [EXCEPTION_CLASS: {exception_class}] [EXCEPTION_MESSAGE: {exception_message}] [ID: {id}] [EXTERNAL_ID: {external_id}] [STATE: {state}] [SUBNET: {subnet}] [GROUP_NAME: {group_name}]';
-    private const MT_DATE_TIME_FORMAT = \DateTimeInterface::RFC3339_EXTENDED;
+    private const string MT_INFO = '[ROUTER_MANAGER] [INFO] [ID: {id}] [EXTERNAL_ID: {external_id}] [STATE: {state}] [SUBNET: {subnet}] [GROUP_NAME: {group_name}]';
+    private const string MT_ERROR = '[ROUTER_MANAGER] [ERROR] [EXCEPTION_CLASS: {exception_class}] [EXCEPTION_MESSAGE: {exception_message}] [ID: {id}] [EXTERNAL_ID: {external_id}] [STATE: {state}] [SUBNET: {subnet}] [GROUP_NAME: {group_name}]';
+    private const string MT_DATE_TIME_FORMAT = \DateTimeInterface::RFC3339_EXTENDED;
 
     public function __construct(
         private readonly LoggerInterface $subnetManipulatorLogger,

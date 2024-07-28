@@ -17,5 +17,5 @@ namespace UnBlockerService\Domain\Common\Entity;
 
 interface WriteOnlyUpdatedAtInterface
 {
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self;
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): static;
 }

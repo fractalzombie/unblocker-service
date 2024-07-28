@@ -15,8 +15,8 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Infrastructure\Subnet\Service\EventMessageResolver\Resolver;
 
-use FRZB\Component\DependencyInjection\Attribute\AsService;
-use FRZB\Component\DependencyInjection\Attribute\AsTagged;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\Notifier\ChatterInterface;
 use Symfony\Component\Notifier\Exception\TransportExceptionInterface;
 use Symfony\Component\Notifier\Message\ChatMessage;
@@ -25,7 +25,7 @@ use UnBlockerService\Domain\Subnet\Service\TransitionEventResolver\Exception\Eve
 use UnBlockerService\Domain\Subnet\Service\TransitionEventResolver\Resolver\EventResolverInterface;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\NotifyEventMessage;
 
-#[AsService, AsTagged(EventResolverInterface::class)]
+#[Autoconfigure, AutoconfigureTag(EventResolverInterface::class)]
 final readonly class NotifyEventResolver implements EventResolverInterface
 {
     public function __construct(

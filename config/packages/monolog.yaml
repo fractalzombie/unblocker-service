@@ -22,7 +22,7 @@ when@dev: &when@dev
       - subnet_provider
       - listener
       - exception
-
+    
     handlers:
       # Main loggers
       main:
@@ -47,7 +47,7 @@ when@dev: &when@dev
         type: stream
         path: "%kernel.logs_dir%/%kernel.environment%.error.log"
         channels:
-         - error
+          - error
       event:
         level: "%monolog.logger.level%"
         type: stream

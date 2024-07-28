@@ -15,10 +15,6 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Domain\Common\Service\Manipulator;
 
-use FRZB\Component\DependencyInjection\Attribute\AsAlias;
-use UnBlockerService\Infrastructure\Common\Service\Manipulator\ClockManipulator;
-
-#[AsAlias(ClockManipulator::class)]
 interface ClockManipulatorInterface
 {
     public function now(): \DateTimeInterface;

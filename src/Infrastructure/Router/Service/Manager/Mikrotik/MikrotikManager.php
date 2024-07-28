@@ -15,11 +15,11 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Infrastructure\Router\Service\Manager\Mikrotik;
 
-use FRZB\Component\DependencyInjection\Attribute\AsService;
-use FRZB\Component\DependencyInjection\Attribute\AsTagged;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use RouterOS\Interfaces\QueryInterface;
 use RouterOS\Query;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use UnBlockerService\Domain\Common\Enum\ProcessState;
 use UnBlockerService\Domain\Router\Enum\RouterType;
 use UnBlockerService\Domain\Router\Service\Client\Mikrotik\ClientInterface;
@@ -32,7 +32,7 @@ use UnBlockerService\Infrastructure\Router\Service\Manager\Mikrotik\Response\Add
 use UnBlockerService\Infrastructure\Router\Service\Manager\Mikrotik\Response\GetResponse;
 use UnBlockerService\Infrastructure\Symfony\EventDispatcher\Event\RouterManagerEvent;
 
-#[AsService, AsTagged(ManagerInterface::class)]
+#[Autoconfigure, AutoconfigureTag(ManagerInterface::class)]
 class MikrotikManager implements ManagerInterface
 {
     public function __construct(

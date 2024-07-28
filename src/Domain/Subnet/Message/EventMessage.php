@@ -27,9 +27,9 @@ use UnBlockerService\Infrastructure\Symfony\Messenger\Message\UpdateEventMessage
 #[DiscriminatorMap(self::TYPE_PROPERTY, self::DISCRIMINATOR_MAP)]
 abstract readonly class EventMessage
 {
-    final public const TYPE_PROPERTY = 'eventType';
+    final public const string TYPE_PROPERTY = 'eventType';
 
-    final public const DISCRIMINATOR_MAP = [
+    final public const array DISCRIMINATOR_MAP = [
         EventType::CREATE => CreateEventMessage::class,
         EventType::UPDATE => UpdateEventMessage::class,
         EventType::ADD => AddEventMessage::class,

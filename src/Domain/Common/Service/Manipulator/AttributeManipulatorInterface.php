@@ -15,30 +15,27 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Domain\Common\Service\Manipulator;
 
-use FRZB\Component\DependencyInjection\Attribute\AsAlias;
 use UnBlockerService\Domain\Common\Service\Manipulator\Exception\ManipulatorException;
-use UnBlockerService\Infrastructure\Common\Service\Manipulator\TargetManipulator;
 
-#[AsAlias(TargetManipulator::class)]
 interface AttributeManipulatorInterface
 {
     /**
-     * @template T
+     * @psalm-template TAttribute
      *
-     * @param class-string<T> $attributeClass
+     * @psalm-param class-string<TAttribute>|string $attributeClass
      *
-     * @return T[]
+     * @psalm-return TAttribute[]
      *
      * @throws ManipulatorException
      */
     public function getAttributesOf(object|string $target, string $attributeClass): array;
 
     /**
-     * @template T
+     * @psalm-template TAttribute
      *
-     * @param class-string<T> $attributeClass
+     * @psalm-param class-string<TAttribute> $attributeClass
      *
-     * @return \ReflectionAttribute<T>[]
+     * @psalm-return \ReflectionAttribute<TAttribute>[]
      */
     public function getReflectionAttributes(object|string $target, string $attributeClass): array;
 }

@@ -31,10 +31,10 @@ test('It extract context from AddEventMessage', function (AddEventMessage $event
         ->method('getShortName')
         ->willReturn('LogicException');
 
-    $clockManipulator
-        ->expects($this->exactly(2))
-        ->method('defaultFormat')
-        ->willReturn($clockFormat);
+//    $clockManipulator
+//        ->expects($this->exactly(2))
+//        ->method('defaultFormat')
+//        ->willReturn($clockFormat);
 
     $context = $contextExtractor->extract($eventMessage, $exception);
 
@@ -50,13 +50,11 @@ test('It extract context from AddEventMessage', function (AddEventMessage $event
         'message' => '[HANDLER] [INFO] [MESSAGE: AddEventMessage] [MESSAGE_ID: {message_id}] [COUNTRY: {country}] [STATE: {state}] [SUBNET: {subnet}] [GROUP_NAME: {group_name}]',
         'clockFormat' => $clockFormat,
         'expectedContext' => [
-            'message_id' => (string) $target->id,
+            'message_id' => $target->id,
             'country' => $target->country,
             'subnet' => "{$target->address}/{$target->mask}",
             'event_type' => $target->eventType->value,
             'state' => $target->state->value,
-            'created_at' => $target->createdAt->format($clockFormat),
-            'updated_at' => $target->updatedAt->format($clockFormat),
         ],
         'isExtractable' => true,
         'exception' => null,
@@ -67,13 +65,11 @@ test('It extract context from AddEventMessage', function (AddEventMessage $event
         'message' => '[HANDLER] [ERROR] [MESSAGE: AddEventMessage] [MESSAGE_ID: {message_id}] [EXCEPTION_CLASS: {exception_class}] [EXCEPTION_MESSAGE: {exception_message}] [COUNTRY: {country}] [STATE: {state}] [SUBNET: {subnet}] [GROUP_NAME: {group_name}]',
         'clockFormat' => $clockFormat,
         'expectedContext' => [
-            'message_id' => (string) $target->id,
+            'message_id' => $target->id,
             'country' => $target->country,
             'subnet' => "{$target->address}/{$target->mask}",
             'event_type' => $target->eventType->value,
             'state' => $target->state->value,
-            'created_at' => $target->createdAt->format($clockFormat),
-            'updated_at' => $target->updatedAt->format($clockFormat),
             'exception_class' => 'LogicException',
             'exception_message' => $exception->getMessage(),
             'exception_trace' => $exception->getTraceAsString(),

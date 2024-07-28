@@ -20,7 +20,7 @@ use UnBlockerService\Domain\Subnet\Message\EventMessage;
 
 final readonly class NotifyEventMessage extends EventMessage
 {
-    private const MESSAGE_TEMPLATE = 'Executed at %s: %s';
+    private const string MT_EXECUTED = 'Executed at %s: %s';
 
     public function __construct(
         public string $message,
@@ -31,7 +31,7 @@ final readonly class NotifyEventMessage extends EventMessage
 
     public static function fromMessage(string $message, string $datetime): self
     {
-        $message = \sprintf(self::MESSAGE_TEMPLATE, $datetime, $message);
+        $message = \sprintf(self::MT_EXECUTED, $datetime, $message);
 
         return new self($message, EventType::Notify);
     }

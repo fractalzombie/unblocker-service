@@ -4,7 +4,7 @@ framework:
       rabbitmq.subnet.event:
         serializer: messenger.transport.symfony_serializer
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-
+    
     routing:
       UnBlockerService\Domain\Subnet\Message\EventMessage: rabbitmq.subnet.event
 

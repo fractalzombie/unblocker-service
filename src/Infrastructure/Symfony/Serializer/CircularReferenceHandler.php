@@ -15,16 +15,18 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Infrastructure\Symfony\Serializer;
 
-use FRZB\Component\DependencyInjection\Attribute\AsService;
-use Symfony\Component\Security\Core\User\UserInterface as User;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use Symfony\Component\Security\Core\User\UserInterface;
+use UnBlockerService\Domain\Common\Entity\ReadOnlyIdentifierInterface;
 
-#[AsService]
+#[Autoconfigure]
 final class CircularReferenceHandler
 {
     public function __invoke(object $object, string $format, array $context = []): string
     {
         return match (true) {
-            $object instanceof User => $object->getUserIdentifier(),
+            $object instanceof UserInterface => $object->getUserIdentifier(),
+            $object instanceof ReadOnlyIdentifierInterface => $object->getId(),
             method_exists($object, 'getId') => $object->getId(),
             method_exists($object, 'getCorrelationId') => $object->getCorrelationId(),
             default => spl_object_hash($object),

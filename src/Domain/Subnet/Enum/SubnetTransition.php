@@ -21,8 +21,8 @@ enum SubnetTransition: string
     case Update = self::UPDATE;
     case Add = self::ADD;
     case Notify = self::NOTIFY;
-    public const CREATE = 'create';
-    public const UPDATE = 'update';
-    public const ADD = 'add';
-    public const NOTIFY = 'notify';
+    public const string CREATE = 'create';
+    public const string UPDATE = 'update';
+    public const string ADD = 'add';
+    public const string NOTIFY = 'notify';
 }

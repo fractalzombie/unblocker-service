@@ -19,7 +19,7 @@ use UnBlockerService\Domain\Subnet\Service\Downloader\Serializer\ValueObject\Sub
 
 final readonly class Response
 {
-    /** @param Subnet[] $subnetList */
+    /** @psalm-param Subnet[] $subnetList */
     public function __construct(
         public array $subnetList,
     ) {}

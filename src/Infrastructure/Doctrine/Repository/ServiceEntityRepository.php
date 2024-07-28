@@ -16,47 +16,43 @@ declare(strict_types=1);
 namespace UnBlockerService\Infrastructure\Doctrine\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository as BaseServiceEntityRepository;
+use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 use UnBlockerService\Domain\Doctrine\Repository\ServiceEntityRepositoryInterface;
 
 /**
- * @template TEntity
+ * @psalm-template TEntity of object
  *
- * @extends BaseServiceEntityRepository<TEntity>
+ * @template-extends BaseServiceEntityRepository<TEntity>
  *
- * @implements ServiceEntityRepositoryInterface<TEntity>
+ * @template-implements ServiceEntityRepositoryInterface<TEntity>
  */
 abstract class ServiceEntityRepository extends BaseServiceEntityRepository implements ServiceEntityRepositoryInterface
 {
-    public function persist(object $entity, bool $flush = true): static
+    public function persist(object $entity): static
     {
         $this->getEntityManager()->persist($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-
         return $this;
     }
 
-    public function remove(object $entity, bool $flush = true): static
+    public function remove(object $entity): static
     {
         $this->getEntityManager()->remove($entity);
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        return $this;
+    }
+
+    public function refresh(object $entity, LockMode $lockMode = LockMode::NONE): static
+    {
+        $this->getEntityManager()->refresh($entity, $lockMode);
 
         return $this;
     }
 
-    public function update(object $entity, bool $flush = true): static
+    public function flush(): static
     {
-        $this->getEntityManager()->refresh($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        $this->getEntityManager()->flush();
 
         return $this;
     }

@@ -15,50 +15,25 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Infrastructure\Doctrine\Entity;
 
-use ApiPlatform\Metadata as API;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\Uuid;
+use Symfony\Bridge\Doctrine\Types\UuidType;
 use UnBlockerService\Domain\Subnet\Entity\SubnetInterface;
 use UnBlockerService\Domain\Subnet\Enum\SubnetState;
 use UnBlockerService\Domain\Subnet\Helper\SubnetHelper;
-use UnBlockerService\Domain\Subnet\Processor\PostSubnetProcessor;
-use UnBlockerService\Domain\Subnet\Provider\SubnetDataProvider;
-use UnBlockerService\Domain\Subnet\Request\PostSubnetRequest;
-use UnBlockerService\Domain\Subnet\Response\GetSubnetResponse;
-use UnBlockerService\Domain\Subnet\Response\PostSubnetResponse;
 use UnBlockerService\Infrastructure\Doctrine\Repository\SubnetRepository;
-use UnBlockerService\Infrastructure\Doctrine\Trait\HasCountry;
-use UnBlockerService\Infrastructure\Doctrine\Trait\HasCreatedAt;
-use UnBlockerService\Infrastructure\Doctrine\Trait\HasIdentifier;
-use UnBlockerService\Infrastructure\Doctrine\Trait\HasUpdatedAt;
+use UnBlockerService\Infrastructure\Doctrine\Trait\CountryTrait;
+use UnBlockerService\Infrastructure\Doctrine\Trait\IdentifierTrait;
+use UnBlockerService\Infrastructure\Doctrine\Trait\TimeStampTrait;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\CreateEventMessage;
 
-#[API\ApiResource(
-    operations: [
-        new API\GetCollection(
-            output: GetSubnetResponse::class,
-            provider: SubnetDataProvider::class,
-        ),
-        new API\Get(
-            output: GetSubnetResponse::class,
-            provider: SubnetDataProvider::class,
-        ),
-        new API\Post(
-            input: PostSubnetRequest::class,
-            output: PostSubnetResponse::class,
-            processor: PostSubnetProcessor::class,
-        ),
-    ],
-)]
 #[ORM\UniqueConstraint(fields: ['address', 'mask'])]
 #[ORM\Entity(repositoryClass: SubnetRepository::class)]
 final class Subnet implements SubnetInterface
 {
-    use HasCountry;
-    use HasCreatedAt;
-    use HasIdentifier;
-    use HasUpdatedAt;
+    use CountryTrait;
+    use IdentifierTrait;
+    use TimeStampTrait;
 
     private const int MAX_LENGTH_EXTERNAL_ID = 32;
     private const int MAX_LENGTH_OF_ADDRESS = 15;
@@ -81,28 +56,21 @@ final class Subnet implements SubnetInterface
         string $address,
         int $mask,
         string $country,
-        \DateTimeInterface $createdAt,
-        \DateTimeInterface $updatedAt,
-        SubnetState $state = SubnetState::New,
+        SubnetState $state,
     ) {
-        $this->id = Uuid::v4();
         $this->address = $address;
         $this->externalId = null;
         $this->mask = $mask;
         $this->country = $country;
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
         $this->state = $state;
     }
 
-    public static function fromCreateEventMessage(CreateEventMessage $message, \DateTimeInterface $createdAt): self
+    public static function fromCreateEventMessage(CreateEventMessage $message): self
     {
         return new self(
             $message->address,
             $message->mask,
             $message->country,
-            $createdAt,
-            $createdAt,
             SubnetState::Created,
         );
     }

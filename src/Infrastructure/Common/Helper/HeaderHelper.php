@@ -18,12 +18,12 @@ namespace UnBlockerService\Infrastructure\Common\Helper;
 use JetBrains\PhpStorm\Immutable;
 use Symfony\Component\HttpFoundation\HeaderBag;
 use Symfony\Contracts\HttpClient\ResponseInterface;
-use UnBlockerService\Infrastructure\Doctrine\Trait\HasPrivateConstructor;
+use UnBlockerService\Infrastructure\Doctrine\Trait\PrivateConstructorTrait;
 
 #[Immutable]
 final class HeaderHelper
 {
-    use HasPrivateConstructor;
+    use PrivateConstructorTrait;
 
     public static function all(array|HeaderBag $headers): array
     {

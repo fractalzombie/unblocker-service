@@ -20,4 +20,6 @@ use Symfony\Component\Uid\Uuid;
 interface ReadOnlyIdentifierInterface
 {
     public function getId(): Uuid;
+
+    public function hasIdentifier(): bool;
 }

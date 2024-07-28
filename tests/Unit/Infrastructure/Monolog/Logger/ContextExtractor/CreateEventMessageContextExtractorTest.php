@@ -31,10 +31,10 @@ test('It extract context from CreateEventMessage', function (CreateEventMessage 
         ->method('getShortName')
         ->willReturn('LogicException');
 
-    $clockManipulator
-        ->expects($this->exactly(2))
-        ->method('defaultFormat')
-        ->willReturn($clockFormat);
+//    $clockManipulator
+//        ->expects($this->exactly(2))
+//        ->method('defaultFormat')
+//        ->willReturn($clockFormat);
 
     $context = $contextExtractor->extract($eventMessage, $exception);
 
@@ -55,8 +55,6 @@ test('It extract context from CreateEventMessage', function (CreateEventMessage 
             'subnet' => "{$target->address}/{$target->mask}",
             'event_type' => $target->eventType->value,
             'state' => $target->state->value,
-            'created_at' => $target->createdAt->format($clockFormat),
-            'updated_at' => $target->updatedAt->format($clockFormat),
         ],
         'isExtractable' => true,
         'exception' => null,
@@ -72,8 +70,6 @@ test('It extract context from CreateEventMessage', function (CreateEventMessage 
             'subnet' => "{$target->address}/{$target->mask}",
             'event_type' => $target->eventType->value,
             'state' => $target->state->value,
-            'created_at' => $target->createdAt->format($clockFormat),
-            'updated_at' => $target->updatedAt->format($clockFormat),
             'exception_class' => 'LogicException',
             'exception_message' => $exception->getMessage(),
             'exception_trace' => $exception->getTraceAsString(),

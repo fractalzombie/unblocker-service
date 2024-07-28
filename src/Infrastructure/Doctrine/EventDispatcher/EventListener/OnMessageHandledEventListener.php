@@ -20,7 +20,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\Messenger\Event\WorkerMessageHandledEvent;
 
 #[AsEventListener(WorkerMessageHandledEvent::class)]
-readonly class OnMessageHandledEventListener
+final readonly class OnMessageHandledEventListener
 {
     public function __construct(
         private EntityManagerInterface $entityManager,

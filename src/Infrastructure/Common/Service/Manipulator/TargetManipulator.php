@@ -23,13 +23,13 @@ use UnBlockerService\Domain\Common\Service\Manipulator\TargetManipulatorInterfac
 
 class TargetManipulator implements TargetManipulatorInterface
 {
-    public const DEFAULT_SHORT_CLASS_NAME = 'NoReflectionClass';
+    public const string DEFAULT_SHORT_CLASS_NAME = 'NoReflectionClass';
 
     public function getAttributesOf(object|string $target, string $attributeClass): array
     {
         return ArrayList::collect($this->getReflectionAttributes($target, $attributeClass))
             ->map(static fn (\ReflectionAttribute $attribute) => $attribute->newInstance())
-            ->toArray();
+            ->toList();
     }
 
     public function getReflectionAttributes(object|string $target, string $attributeClass): array
@@ -47,10 +47,10 @@ class TargetManipulator implements TargetManipulatorInterface
         }
 
         return ArrayList::collect($attributes)
-            ->unique(fn (\ReflectionAttribute $ra) => Arr::join($ra->getArguments(), ';'))
+            ->uniqueBy(fn (\ReflectionAttribute $ra) => Arr::join($ra->getArguments(), ';'))
             ->sorted(fn (\ReflectionAttribute $ral, \ReflectionAttribute $rar) => Arr::join($rar->getArguments(), ';') <=> Arr::join($ral->getArguments(), ';'))
             ->reverse()
-            ->toArray();
+            ->toList();
     }
 
     public function getPropertiesOf(object|string $target): array
@@ -64,9 +64,9 @@ class TargetManipulator implements TargetManipulatorInterface
             ])->getOrElse([]);
 
         return ArrayList::collect($properties)
-            ->unique(fn (\ReflectionProperty $rp) => $rp->getName())
+            ->uniqueBy(fn (\ReflectionProperty $rp) => $rp->getName())
             ->reverse()
-            ->toArray();
+            ->toList();
     }
 
     public function getShortName(object|string $target): string

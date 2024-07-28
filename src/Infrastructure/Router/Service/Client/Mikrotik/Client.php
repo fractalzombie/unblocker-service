@@ -15,32 +15,37 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Infrastructure\Router\Service\Client\Mikrotik;
 
-use FRZB\Component\DependencyInjection\Attribute\AsService;
 use Illuminate\Support\Arr;
 use RouterOS\Exceptions\BadCredentialsException;
 use RouterOS\Exceptions\ConfigException;
 use RouterOS\Exceptions\ConnectException;
 use RouterOS\Exceptions\QueryException;
 use RouterOS\Interfaces\QueryInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use UnBlockerService\Domain\Router\Service\Client\Mikrotik\ClientInterface;
 use UnBlockerService\Domain\Router\Service\Client\Mikrotik\Exception\ClientException;
 use UnBlockerService\Domain\Subnet\Entity\ReadOnlySubnetInterface;
 
-#[AsService(arguments: [
-    '$address' => '%env(string:MIKROTIK_ADDRESS)%',
-    '$user' => '%env(string:MIKROTIK_USER)%',
-    '$password' => '%env(string:MIKROTIK_PASSWORD)%',
-    '$port' => '%env(int:MIKROTIK_PORT)%',
-    '$isLegacy' => '%env(bool:MIKROTIK_LEGACY_MODE)%',
-])]
+#[Autoconfigure]
 class Client implements ClientInterface
 {
     private readonly array $config;
 
     private \RouterOS\Interfaces\ClientInterface $client;
 
-    public function __construct(string $address, int $port, string $user, string $password, bool $isLegacy)
-    {
+    public function __construct(
+        #[Autowire(env: 'MIKROTIK_ADDRESS')]
+        string $address,
+        #[Autowire(env: 'int:MIKROTIK_PORT')]
+        int $port,
+        #[Autowire(env: 'MIKROTIK_USER')]
+        string $user,
+        #[Autowire(env: 'MIKROTIK_PASSWORD')]
+        string $password,
+        #[Autowire(env: 'bool:MIKROTIK_LEGACY_MODE')]
+        bool $isLegacy
+    ) {
         $this->config = ['host' => $address, 'port' => $port, 'user' => $user, 'pass' => $password, 'legacy' => $isLegacy];
     }
 

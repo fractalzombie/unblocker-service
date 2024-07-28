@@ -16,8 +16,8 @@ declare(strict_types=1);
 namespace UnBlockerService\Infrastructure\Subnet\Service\EventMessageResolver\Resolver;
 
 use Doctrine\ORM\EntityManagerInterface;
-use FRZB\Component\DependencyInjection\Attribute\AsService;
-use FRZB\Component\DependencyInjection\Attribute\AsTagged;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use UnBlockerService\Domain\Router\Service\Manager\ManagerInterface;
 use UnBlockerService\Domain\Subnet\Enum\SubnetState;
 use UnBlockerService\Domain\Subnet\Message\EventMessage;
@@ -25,7 +25,7 @@ use UnBlockerService\Domain\Subnet\Repository\SubnetRepositoryInterface;
 use UnBlockerService\Domain\Subnet\Service\TransitionEventResolver\Resolver\EventResolverInterface;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\AddEventMessage;
 
-#[AsService, AsTagged(EventResolverInterface::class)]
+#[Autoconfigure, AutoconfigureTag(EventResolverInterface::class)]
 final readonly class AddEventResolver implements EventResolverInterface
 {
     public function __construct(

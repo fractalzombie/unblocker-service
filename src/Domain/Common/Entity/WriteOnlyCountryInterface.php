@@ -17,5 +17,5 @@ namespace UnBlockerService\Domain\Common\Entity;
 
 interface WriteOnlyCountryInterface
 {
-    public function setCountry(string $country): self;
+    public function setCountry(string $country): static;
 }

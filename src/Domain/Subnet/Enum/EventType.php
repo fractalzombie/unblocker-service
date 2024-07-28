@@ -22,8 +22,8 @@ enum EventType: string
     case Add = self::ADD;
     case Notify = self::NOTIFY;
 
-    public const CREATE = 'subnet.'.SubnetTransition::CREATE;
-    public const UPDATE = 'subnet.'.SubnetTransition::UPDATE;
-    public const ADD = 'subnet.'.SubnetTransition::ADD;
-    public const NOTIFY = 'subnet.'.SubnetTransition::NOTIFY;
+    public const string CREATE = SubnetState::STATE_NAME.SubnetTransition::CREATE;
+    public const string UPDATE = SubnetState::STATE_NAME.SubnetTransition::UPDATE;
+    public const string ADD = SubnetState::STATE_NAME.SubnetTransition::ADD;
+    public const string NOTIFY = SubnetState::STATE_NAME.SubnetTransition::NOTIFY;
 }

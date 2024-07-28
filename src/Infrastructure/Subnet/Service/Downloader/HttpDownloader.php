@@ -15,8 +15,8 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Infrastructure\Subnet\Service\Downloader;
 
-use FRZB\Component\DependencyInjection\Attribute\AsService;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use UnBlockerService\Domain\Common\Enum\HttpMethod;
@@ -28,7 +28,7 @@ use UnBlockerService\Domain\Subnet\Service\Downloader\Request\Request;
 use UnBlockerService\Domain\Subnet\Service\Downloader\Serializer\SerializerInterface;
 use UnBlockerService\Infrastructure\Symfony\EventDispatcher\Event\DownloaderRequestEvent;
 
-#[AsService]
+#[Autoconfigure]
 final readonly class HttpDownloader implements DownloaderInterface
 {
     public function __construct(

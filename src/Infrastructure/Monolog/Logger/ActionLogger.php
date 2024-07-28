@@ -15,8 +15,8 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Infrastructure\Monolog\Logger;
 
-use FRZB\Component\DependencyInjection\Attribute\AsService;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use UnBlockerService\Domain\Common\Logger\ActionLoggerInterface;
 
-#[AsService]
+#[Autoconfigure]
 class ActionLogger implements ActionLoggerInterface {}

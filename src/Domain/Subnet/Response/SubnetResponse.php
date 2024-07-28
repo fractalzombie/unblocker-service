@@ -15,16 +15,24 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Domain\Subnet\Response;
 
-use Symfony\Component\Uid\Uuid;
+use ApiPlatform\Metadata\ApiProperty;
+use JetBrains\PhpStorm\Immutable;
+use Symfony\Component\Serializer\Attribute\Groups;
 use UnBlockerService\Domain\Subnet\Entity\SubnetInterface;
 
+#[Immutable]
 readonly class SubnetResponse
 {
     public function __construct(
-        public Uuid $id,
+        #[ApiProperty(identifier: true), Groups('subnet:read')]
+        public string $id,
+        #[Groups('subnet:read')]
         public string $address,
+        #[Groups('subnet:read')]
         public int $mask,
+        #[Groups('subnet:read')]
         public \DateTimeInterface $createdAt,
+        #[Groups('subnet:read')]
         public string $country
     ) {}
 

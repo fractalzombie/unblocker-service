@@ -15,18 +15,18 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Infrastructure\Common\Service\Manipulator;
 
-use FRZB\Component\DependencyInjection\Attribute\AsService;
 use Symfony\Component\Clock\ClockInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use UnBlockerService\Domain\Common\Service\Manipulator\ClockManipulatorInterface;
 
-#[AsService(arguments: [
-    '$defaultFormat' => '%env(resolve:CLOCK_DEFAULT_FORMAT)%',
-    '$timezone' => '%env(resolve:CLOCK_DEFAULT_TIMEZONE)%',
-])]
+#[Autoconfigure]
 final class ClockManipulator implements ClockManipulatorInterface
 {
     public function __construct(
+        #[Autowire(env: 'CLOCK_DEFAULT_FORMAT')]
         private readonly string $defaultFormat,
+        #[Autowire(env: 'CLOCK_DEFAULT_TIMEZONE')]
         private string $timezone,
         private readonly ClockInterface $clock,
     ) {}

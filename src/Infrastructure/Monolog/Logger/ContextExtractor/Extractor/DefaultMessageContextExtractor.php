@@ -15,19 +15,19 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Infrastructure\Monolog\Logger\ContextExtractor\Extractor;
 
-use FRZB\Component\DependencyInjection\Attribute\AsService;
-use FRZB\Component\DependencyInjection\Attribute\AsTagged;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use UnBlockerService\Domain\Common\Logger\ContextExtractor\Extractor\ContextExtractorInterface;
 use UnBlockerService\Domain\Common\Logger\ContextExtractor\ValueObject\ContextInterface;
 use UnBlockerService\Domain\Common\Service\Manipulator\ClassManipulatorInterface;
 use UnBlockerService\Infrastructure\Monolog\Logger\ContextExtractor\ValueObject\Context;
 
-#[AsService, AsTagged(ContextExtractorInterface::class)]
+#[Autoconfigure, AutoconfigureTag(ContextExtractorInterface::class)]
 class DefaultMessageContextExtractor implements ContextExtractorInterface
 {
-    private const MT_INFO = '[HANDLER] [INFO] [MESSAGE: {message_class}] [MESSAGE_ID: {message_id}]';
-    private const MT_ERROR = '[HANDLER] [ERROR] [MESSAGE: {message_class}] [MESSAGE_ID: {message_id}] [EXCEPTION_CLASS: {exception_class}] [EXCEPTION_MESSAGE: {exception_message}]';
+    private const string MT_INFO = '[HANDLER] [INFO] [MESSAGE: {message_class}] [MESSAGE_ID: {message_id}]';
+    private const string MT_ERROR = '[HANDLER] [ERROR] [MESSAGE: {message_class}] [MESSAGE_ID: {message_id}] [EXCEPTION_CLASS: {exception_class}] [EXCEPTION_MESSAGE: {exception_message}]';
 
     public function __construct(
         private readonly NormalizerInterface $normalizer,

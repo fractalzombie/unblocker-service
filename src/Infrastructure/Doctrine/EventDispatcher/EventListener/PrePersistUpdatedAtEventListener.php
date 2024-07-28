@@ -15,25 +15,22 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Infrastructure\Doctrine\EventDispatcher\EventListener;
 
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Events;
 use Psr\Clock\ClockInterface;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
-use UnBlockerService\Domain\Common\Entity\WriteOnlyUpdatedAtInterface;
+use UnBlockerService\Domain\Common\Entity\UpdatedAtInterface;
+use UnBlockerService\Infrastructure\Doctrine\Entity\Subnet;
 
-#[AsEventListener(Events::prePersist)]
-class PrePersistUpdatedAtEventListener
+#[AsEntityListener(Events::prePersist, entity: Subnet::class)]
+final readonly class PrePersistUpdatedAtEventListener
 {
     public function __construct(
-        private readonly ClockInterface $clock,
+        private ClockInterface $clock,
     ) {}
 
-    public function __invoke(PrePersistEventArgs $event): void
+    public function __invoke(UpdatedAtInterface $target, PrePersistEventArgs $event): void
     {
-        $object = $event->getObject();
-
-        if ($object instanceof WriteOnlyUpdatedAtInterface) {
-            $object->setUpdatedAt($this->clock->now());
-        }
+        $target->setUpdatedAt($this->clock->now());
     }
 }

@@ -28,9 +28,5 @@ final readonly class PostSubnetRequest
         public string $address,
         #[Assert\Type('int')]
         public int $mask,
-        #[Assert\Type(\DateTimeInterface::class)]
-        public \DateTimeInterface $fromDateTime,
-        #[Assert\Type(\DateTimeInterface::class)]
-        public \DateTimeInterface $toDateTime,
     ) {}
 }

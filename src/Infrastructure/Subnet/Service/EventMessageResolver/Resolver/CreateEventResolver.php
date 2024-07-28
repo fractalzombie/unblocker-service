@@ -16,9 +16,8 @@ declare(strict_types=1);
 namespace UnBlockerService\Infrastructure\Subnet\Service\EventMessageResolver\Resolver;
 
 use Doctrine\ORM\EntityManagerInterface;
-use FRZB\Component\DependencyInjection\Attribute\AsService;
-use FRZB\Component\DependencyInjection\Attribute\AsTagged;
 use Psr\Clock\ClockInterface;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use UnBlockerService\Domain\Subnet\Enum\SubnetState;
 use UnBlockerService\Domain\Subnet\Message\EventMessage;
 use UnBlockerService\Domain\Subnet\Publisher\EventPublisherInterface;
@@ -29,7 +28,7 @@ use UnBlockerService\Infrastructure\Doctrine\Entity\Subnet;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\CreateEventMessage;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\UpdateEventMessage;
 
-#[AsService, AsTagged(EventResolverInterface::class)]
+#[AutoconfigureTag(EventResolverInterface::class)]
 final readonly class CreateEventResolver implements EventResolverInterface
 {
     public function __construct(
@@ -65,6 +64,6 @@ final readonly class CreateEventResolver implements EventResolverInterface
 
     private function isSubnetNotExists(CreateEventMessage $message): void
     {
-        $this->entityManager->persist(Subnet::fromCreateEventMessage($message, $this->clock->now()));
+        $this->entityManager->persist(Subnet::fromCreateEventMessage($message));
     }
 }

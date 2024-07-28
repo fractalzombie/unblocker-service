@@ -16,14 +16,14 @@ declare(strict_types=1);
 namespace UnBlockerService\Infrastructure\Subnet\Service\Downloader\Serializer;
 
 use Fp\Collections\ArrayList;
-use FRZB\Component\DependencyInjection\Attribute\AsService;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use UnBlockerService\Domain\Subnet\Service\Downloader\Serializer\SerializerInterface;
 use UnBlockerService\Domain\Subnet\Service\Downloader\Serializer\ValueObject\Subnet;
 
-#[AsService]
+#[Autoconfigure]
 final class ListSerializer implements SerializerInterface
 {
-    private const SUBNET_REGEX = '/^(([12]?[0-9]{1,2}|2[0-4][0-9]|25[0-5])(\.|\/)){4}([1-2]?[0-9]|3[0-2])$/';
+    private const string SUBNET_REGEX = '/^(([12]?[0-9]{1,2}|2[0-4][0-9]|25[0-5])(\.|\/)){4}([1-2]?[0-9]|3[0-2])$/';
 
     public function deserialize(string $content, string $country): array
     {
@@ -31,6 +31,6 @@ final class ListSerializer implements SerializerInterface
             ->filter(static fn (string $subnet) => !empty($subnet))
             ->filter(static fn (string $subnet) => (bool) preg_match(self::SUBNET_REGEX, $subnet))
             ->map(static fn (string $subnet) => Subnet::fromSubnet($subnet, $country))
-            ->toArray();
+            ->toList();
     }
 }

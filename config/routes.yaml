@@ -1,4 +1,4 @@
-subnet:
-  resource: ../src/Action/Subnet/
-  prefix: /api/v1/subnets
+kernel:
+  resource: UnBlockerService\Kernel
   type: attribute
+  trailing_slash_on_root: false

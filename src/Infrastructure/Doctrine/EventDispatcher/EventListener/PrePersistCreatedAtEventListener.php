@@ -15,31 +15,24 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Infrastructure\Doctrine\EventDispatcher\EventListener;
 
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Events;
 use Psr\Clock\ClockInterface;
-use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
-use UnBlockerService\Domain\Common\Entity\ReadOnlyCreatedAtInterface;
+use UnBlockerService\Domain\Common\Entity\CreatedAtInterface;
+use UnBlockerService\Infrastructure\Doctrine\Entity\Subnet;
 
-#[AsEventListener(Events::prePersist)]
-readonly class PrePersistCreatedAtEventListener
+#[AsEntityListener(Events::prePersist, entity: Subnet::class)]
+final readonly class PrePersistCreatedAtEventListener
 {
     public function __construct(
         private ClockInterface $clock,
     ) {}
 
-    public function __invoke(PrePersistEventArgs $event): void
+    public function __invoke(CreatedAtInterface $target, PrePersistEventArgs $event): void
     {
-        $object = $event->getObject();
-
-        if ($this->isNotCreated($object)) {
-            $object->setCreatedAt($this->clock->now());
+        if ($target->hasNotCreatedAt()) {
+            $target->setCreatedAt($this->clock->now());
         }
-    }
-
-    private function isNotCreated(object $object): bool
-    {
-        return $object instanceof ReadOnlyCreatedAtInterface
-            && $object->isNotCreatedAt();
     }
 }

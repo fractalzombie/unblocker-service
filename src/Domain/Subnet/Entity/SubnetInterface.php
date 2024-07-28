@@ -15,4 +15,9 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Domain\Subnet\Entity;
 
-interface SubnetInterface extends ReadOnlySubnetInterface, WriteOnlySubnetInterface {}
+use UnBlockerService\Domain\Common\Entity\CountryInterface;
+use UnBlockerService\Domain\Common\Entity\CreatedAtInterface;
+use UnBlockerService\Domain\Common\Entity\IdentifierInterface;
+use UnBlockerService\Domain\Common\Entity\UpdatedAtInterface;
+
+interface SubnetInterface extends ReadOnlySubnetInterface, WriteOnlySubnetInterface, IdentifierInterface, CountryInterface, CreatedAtInterface, UpdatedAtInterface {}

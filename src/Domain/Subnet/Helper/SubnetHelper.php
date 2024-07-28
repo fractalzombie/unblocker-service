@@ -16,17 +16,17 @@ declare(strict_types=1);
 namespace UnBlockerService\Domain\Subnet\Helper;
 
 use JetBrains\PhpStorm\Immutable;
-use UnBlockerService\Infrastructure\Doctrine\Trait\HasPrivateConstructor;
+use UnBlockerService\Infrastructure\Doctrine\Trait\PrivateConstructorTrait;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\UpdateEventMessage;
 
 #[Immutable]
 final class SubnetHelper
 {
-    use HasPrivateConstructor;
+    use PrivateConstructorTrait;
 
-    public const SEPARATOR = '/';
-    private const MASK_MAX_NUMBER = 32;
-    private const MASK_MIN_NUMBER = 0;
+    public const string SEPARATOR = '/';
+    private const int MASK_MAX_NUMBER = 32;
+    private const int MASK_MIN_NUMBER = 0;
 
     public static function makeSubnets(string $address, int $mask): string
     {

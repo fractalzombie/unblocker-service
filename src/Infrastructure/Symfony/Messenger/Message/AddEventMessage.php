@@ -28,8 +28,6 @@ final readonly class AddEventMessage extends EventMessage
         public string $address,
         public int $mask,
         public string $country,
-        public \DateTimeInterface $createdAt,
-        public \DateTimeInterface $updatedAt,
         public SubnetState $state,
         EventType $eventType,
     ) {
@@ -43,8 +41,6 @@ final readonly class AddEventMessage extends EventMessage
             $subnet->getAddress(),
             $subnet->getMask(),
             $subnet->getCountry(),
-            $subnet->getCreatedAt(),
-            $subnet->getUpdatedAt(),
             $subnet->getState(),
             EventType::Add,
         );

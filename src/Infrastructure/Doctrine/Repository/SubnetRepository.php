@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Infrastructure\Doctrine\Repository;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -26,7 +27,11 @@ use UnBlockerService\Domain\Subnet\Enum\SubnetState;
 use UnBlockerService\Domain\Subnet\Repository\SubnetRepositoryInterface;
 use UnBlockerService\Infrastructure\Doctrine\Entity\Subnet;
 
-/** @extends ServiceEntityRepository<SubnetInterface> */
+/**
+ * @template-extends ServiceEntityRepository<SubnetInterface>
+ *
+ * @template-implements SubnetRepositoryInterface<SubnetInterface>
+ */
 final class SubnetRepository extends ServiceEntityRepository implements SubnetRepositoryInterface
 {
     public function __construct(
@@ -50,7 +55,7 @@ final class SubnetRepository extends ServiceEntityRepository implements SubnetRe
                 ->getQuery()
                 ->setQueryCacheLifetime($this->cacheSeconds)
                 ->getSingleResult();
-        } catch (NonUniqueResultException|NoResultException) {
+        } catch (NonUniqueResultException|NoResultException $e) {
             return null;
         }
 
@@ -83,7 +88,7 @@ final class SubnetRepository extends ServiceEntityRepository implements SubnetRe
         //        );
     }
 
-    /** @return SubnetInterface[] */
+    /** @psalm-return SubnetInterface[] */
     public function getListByCountry(string $country): array
     {
         $qb = $this->createQueryBuilder('subnet');

@@ -54,9 +54,10 @@ final class DownloadSubnetListCommand extends Command
                 ->map(Provider::fromProvider(...))
                 ->map(Request::fromProvider(...))
                 ->map($this->downloader->download(...))
-                ->reduce(array_merge(...))
-                ->toArrayList(ArrayList::collect(...))
-                ->unique(Subnet::unique(...));
+                ->toMergedArray();
+
+            $subnetList = ArrayList::collect($subnetList)
+                ->uniqueBy(Subnet::unique(...));
 
             $ui->info("Downloaded {$subnetList->count()} subnets");
             $ui->info('Start send messages for adding subnets to database');

@@ -17,5 +17,5 @@ namespace UnBlockerService\Domain\Common\Entity;
 
 interface WriteOnlyCreatedAtInterface
 {
-    public function setCreatedAt(\DateTimeInterface $createdAt): self;
+    public function setCreatedAt(\DateTimeInterface $createdAt): static;
 }

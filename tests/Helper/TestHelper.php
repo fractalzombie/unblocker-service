@@ -21,7 +21,7 @@ use UnBlockerService\Domain\Subnet\Entity\SubnetInterface;
 use UnBlockerService\Domain\Subnet\Enum\SubnetState;
 use UnBlockerService\Domain\Subnet\Service\Downloader\Serializer\ValueObject\Subnet as SubnetValueObject;
 use UnBlockerService\Infrastructure\Doctrine\Entity\Subnet;
-use UnBlockerService\Infrastructure\Doctrine\Trait\HasPrivateConstructor;
+use UnBlockerService\Infrastructure\Doctrine\Trait\PrivateConstructorTrait;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\AddEventMessage;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\CreateEventMessage;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\NotifyEventMessage;
@@ -30,9 +30,9 @@ use UnBlockerService\Infrastructure\Symfony\Messenger\Message\UpdateEventMessage
 /** @internal */
 final readonly class TestHelper
 {
-    use HasPrivateConstructor;
+    use PrivateConstructorTrait;
 
-    public const SUBNETS = [
+    public const array SUBNETS = [
         self::COUNTRY_USA => [
             '85.92.0.0/19',
             '85.92.108.0/22',
@@ -61,22 +61,22 @@ final readonly class TestHelper
         ],
     ];
 
-    public const UUID = 'c3098ca4-f73d-4983-b345-0c1f541f0fb5';
-    public const MESSAGE = 'Something goes wrong';
-    public const NOTIFY_MESSAGE = 'Notify message';
-    public const NOTIFY_MESSAGE_TEMPLATE = 'Executed at %s: %s';
-    public const ADDRESS = '192.168.88.0';
-    public const MASK = 24;
-    public const SUBNET = self::ADDRESS.'/'.self::MASK;
-    public const ROUTER_ID = '*5ABLS';
-    public const COUNTRY_USA = 'USA';
-    public const COUNTRY_UA = 'UA';
-    public const GROUP_NAME = 'BLACKLIST_'.self::COUNTRY_USA;
-    public const ATTRIBUTE_PROPERTY_VALUE = 'attribute-test-value';
-    public const CLASS_PROPERTY_VALUE = 'property-test-value';
+    public const string UUID = 'c3098ca4-f73d-4983-b345-0c1f541f0fb5';
+    public const string MESSAGE = 'Something goes wrong';
+    public const string NOTIFY_MESSAGE = 'Notify message';
+    public const string NOTIFY_MESSAGE_TEMPLATE = 'Executed at %s: %s';
+    public const string ADDRESS = '192.168.88.0';
+    public const int MASK = 24;
+    public const string SUBNET = self::ADDRESS.'/'.self::MASK;
+    public const string ROUTER_ID = '*5ABLS';
+    public const string COUNTRY_USA = 'USA';
+    public const string COUNTRY_UA = 'UA';
+    public const string GROUP_NAME = 'BLACKLIST_'.self::COUNTRY_USA;
+    public const string ATTRIBUTE_PROPERTY_VALUE = 'attribute-test-value';
+    public const string CLASS_PROPERTY_VALUE = 'property-test-value';
 
-    public const PROVIDER_USA = ['url' => 'https://example.com/path/to/subnet-list.txt', 'country' => self::COUNTRY_USA];
-    public const PROVIDER_UA = ['url' => 'https://example.ua/path/to/subnet-list.txt', 'country' => self::COUNTRY_UA];
+    public const array PROVIDER_USA = ['url' => 'https://example.com/path/to/subnet-list.txt', 'country' => self::COUNTRY_USA];
+    public const array PROVIDER_UA = ['url' => 'https://example.ua/path/to/subnet-list.txt', 'country' => self::COUNTRY_UA];
 
     public static function getRouterResponse(): string
     {
@@ -102,23 +102,26 @@ final readonly class TestHelper
     {
         return ArrayList::collect(self::getTestSubnetsAsArray($provider))
             ->map(static fn (string $subnet) => SubnetValueObject::fromSubnet($subnet, $provider))
-            ->map(static fn (SubnetValueObject $subnet) => (new Subnet(
-                $subnet->address,
-                $subnet->mask,
-                $subnet->country,
-                new \DateTimeImmutable(),
-                new \DateTimeImmutable(),
-                SubnetState::Created,
-            ))->setId(Uuid::v4()))
-            ->toArray();
+            ->map(self::fromSubnetValueObjectToSubnet(...))
+            ->toList();
+    }
+
+    public static function fromSubnetValueObjectToSubnet(SubnetValueObject $subnet): Subnet
+    {
+        return (new Subnet(
+            $subnet->address,
+            $subnet->mask,
+            $subnet->country,
+            SubnetState::New,
+        ))->setId(Uuid::v4());
     }
 
     /**
-     * @template T
+     * @psalm-template TObject of object
      *
-     * @param class-string<T> $className
+     * @psalm-param class-string<TObject>|string $className
      *
-     * @return T
+     * @psalm-return TObject
      */
     public static function makeObject(string $className, string $factoryMethod = '__construct', array|object $args = []): object
     {
@@ -138,8 +141,6 @@ final readonly class TestHelper
             'address' => self::ADDRESS,
             'mask' => self::MASK,
             'country' => self::COUNTRY_UA,
-            'createdAt' => new \DateTimeImmutable(),
-            'updatedAt' => new \DateTimeImmutable(),
             'state' => $state ?? $states[array_rand($states)],
         ]);
 
@@ -149,8 +150,7 @@ final readonly class TestHelper
             (new \ReflectionClass($subnet))
                 ->getProperty('id')
                 ->setValue($subnet, $id ?? Uuid::v4());
-        } catch (\ReflectionException) {
-        }
+        } catch (\ReflectionException) {}
 
         return $subnet;
     }
@@ -172,7 +172,6 @@ final readonly class TestHelper
     {
         return self::makeObject(CreateEventMessage::class, 'fromSubnet', [
             'subnet' => self::makeSubnetValueObject($id),
-            'createdAt' => new \DateTimeImmutable(),
         ]);
     }
 

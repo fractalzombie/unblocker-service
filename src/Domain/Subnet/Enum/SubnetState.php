@@ -22,9 +22,9 @@ enum SubnetState: string
     case Updated = self::UPDATED;
     case Added = self::ADDED;
 
-    public const STATE_NAME = 'subnet';
-    public const NEW = 'new';
-    public const CREATED = 'created';
-    public const UPDATED = 'updated';
-    public const ADDED = 'added';
+    public const string STATE_NAME = 'subnet';
+    public const string NEW = 'new';
+    public const string CREATED = 'created';
+    public const string UPDATED = 'updated';
+    public const string ADDED = 'added';
 }

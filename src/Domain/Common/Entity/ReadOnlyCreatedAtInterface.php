@@ -19,5 +19,5 @@ interface ReadOnlyCreatedAtInterface
 {
     public function getCreatedAt(): \DateTimeInterface;
 
-    public function isNotCreatedAt(): bool;
+    public function hasNotCreatedAt(): bool;
 }
