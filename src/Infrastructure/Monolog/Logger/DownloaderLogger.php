@@ -19,9 +19,9 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use UnBlockerService\Domain\Common\Enum\StatusCode;
+use UnBlockerService\Domain\Common\Helper\HeaderHelper;
 use UnBlockerService\Domain\Subnet\Logger\DownloaderLoggerInterface;
 use UnBlockerService\Domain\Subnet\Service\Downloader\Request\Request;
-use UnBlockerService\Infrastructure\Common\Helper\HeaderHelper;
 
 #[Autoconfigure]
 class DownloaderLogger implements DownloaderLoggerInterface

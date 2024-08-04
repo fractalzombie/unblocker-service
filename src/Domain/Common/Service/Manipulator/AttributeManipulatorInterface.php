@@ -37,5 +37,5 @@ interface AttributeManipulatorInterface
      *
      * @psalm-return \ReflectionAttribute<TAttribute>[]
      */
-    public function getReflectionAttributes(object|string $target, string $attributeClass): array;
+    public function getReflectionAttributesOf(object|string $target, string $attributeClass): array;
 }

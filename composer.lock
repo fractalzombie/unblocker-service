@@ -1685,16 +1685,16 @@
         },
         {
             "name": "frzb/transactional-messenger",
-            "version": "v1.4.4",
+            "version": "v1.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fractalzombie/frzb-transactional-messenger.git",
-                "reference": "1806bf91df7ab0fec7deb7c5446bc42c426bd871"
+                "reference": "21adecd7a9f55d5af6a20282105c87f312ccc5c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fractalzombie/frzb-transactional-messenger/zipball/1806bf91df7ab0fec7deb7c5446bc42c426bd871",
-                "reference": "1806bf91df7ab0fec7deb7c5446bc42c426bd871",
+                "url": "https://api.github.com/repos/fractalzombie/frzb-transactional-messenger/zipball/21adecd7a9f55d5af6a20282105c87f312ccc5c1",
+                "reference": "21adecd7a9f55d5af6a20282105c87f312ccc5c1",
                 "shasum": ""
             },
             "require": {
@@ -1748,9 +1748,9 @@
             ],
             "support": {
                 "issues": "https://github.com/fractalzombie/frzb-transactional-messenger/issues",
-                "source": "https://github.com/fractalzombie/frzb-transactional-messenger/tree/v1.4.4"
+                "source": "https://github.com/fractalzombie/frzb-transactional-messenger/tree/v1.4.5"
             },
-            "time": "2024-07-28T16:17:18+00:00"
+            "time": "2024-08-04T17:31:31+00:00"
         },
         {
             "name": "illuminate/collections",

@@ -18,6 +18,7 @@ namespace UnBlockerService\Infrastructure\Common\Service\Manipulator;
 use Fp\Collections\ArrayList;
 use Fp\Functional\Option\Option;
 use Illuminate\Support\Arr;
+use UnBlockerService\Domain\Common\Helper\ClassHelper;
 use UnBlockerService\Domain\Common\Service\Manipulator\Exception\ManipulatorException;
 use UnBlockerService\Domain\Common\Service\Manipulator\TargetManipulatorInterface;
 
@@ -27,44 +28,85 @@ class TargetManipulator implements TargetManipulatorInterface
 
     public function getAttributesOf(object|string $target, string $attributeClass): array
     {
-        return ArrayList::collect($this->getReflectionAttributes($target, $attributeClass))
+        return ArrayList::collect($this->getReflectionAttributesOf($target, $attributeClass))
             ->map(static fn (\ReflectionAttribute $attribute) => $attribute->newInstance())
             ->toList();
     }
 
-    public function getReflectionAttributes(object|string $target, string $attributeClass): array
+    public function getInheritanceListOf(object|string $target): array
+    {
+        $isTargetObject = \is_object($target);
+        $targetClass = $isTargetObject ? $target::class : $target;
+
+        if (!class_exists($targetClass)) {
+            throw ManipulatorException::notSupportedType($targetClass);
+        }
+
+        return [$targetClass => $targetClass, ...(class_parents($target, false) ?: [])];
+    }
+
+    /**
+     * @psalm-template TTarget
+     *
+     * @psalm-param class-string<TTarget> $attributeClass
+     *
+     * @psalm-return \Iterator<\ReflectionAttribute<TTarget>>
+     */
+    public static function getReflectionAttributes(object|string $target, string $attributeClass): iterable
+    {
+        return self::getReflectionClass($target)
+            ?->getAttributes($attributeClass, \ReflectionAttribute::IS_INSTANCEOF) ?? [];
+    }
+
+    /**
+     * @psalm-template TTarget
+     *
+     * @psalm-param class-string<TTarget>|TTarget $target
+     *
+     * @psalm-return ?\ReflectionClass<TTarget>
+     */
+    public static function getReflectionClass(object|string $target): ?\ReflectionClass
     {
         try {
-            $attributes = Option::fromNullable($this->getReflectionOf($target))
-                ->map(fn (\ReflectionClass $trClass) => [
-                    ...$trClass->getAttributes($attributeClass, \ReflectionAttribute::IS_INSTANCEOF),
-                    ...Option::fromNullable($this->getParentReflectionOf($target))
-                        ->map(fn (\ReflectionClass $tprClass) => $this->getReflectionAttributes($tprClass, $attributeClass))
-                        ->getOrElse([]),
-                ])->getOrElse([]);
+            return $target instanceof \ReflectionClass ? $target : new \ReflectionClass($target);
+        } catch (\ReflectionException) {
+            return null;
+        }
+    }
+
+    /**
+     * @psalm-template TTarget
+     *
+     * @psalm-param class-string<TTarget>|TTarget $target
+     *
+     * @psalm-return ?\ReflectionClass<TTarget>
+     */
+    public static function getParentReflectionClass(object|string $target): ?\ReflectionClass
+    {
+        return self::getReflectionClass($target)?->getParentClass() ?: null;
+    }
+
+    public function getReflectionAttributesOf(object|string $target, string $attributeClass): array
+    {
+        try {
+            return ArrayList::collect($this->getInheritanceListOf($target))
+                ->map(static fn (string $class) => new \ReflectionClass($class))
+                ->map(fn (\ReflectionClass $rClass) => $this->getReflectionAttributes($rClass, $attributeClass))
+                ->reverse()
+                ->flatten()
+                ->toList();
         } catch (\Throwable $e) {
             throw ManipulatorException::fromThrowable($e);
         }
-
-        return ArrayList::collect($attributes)
-            ->uniqueBy(fn (\ReflectionAttribute $ra) => Arr::join($ra->getArguments(), ';'))
-            ->sorted(fn (\ReflectionAttribute $ral, \ReflectionAttribute $rar) => Arr::join($rar->getArguments(), ';') <=> Arr::join($ral->getArguments(), ';'))
-            ->reverse()
-            ->toList();
     }
 
     public function getPropertiesOf(object|string $target): array
     {
-        $properties = Option::fromNullable($this->getReflectionOf($target))
-            ->map(fn (\ReflectionClass $trClass) => [
-                ...$trClass->getProperties(),
-                ...Option::fromNullable($this->getParentReflectionOf($target))
-                    ->map(fn (\ReflectionClass $tprClass) => $this->getPropertiesOf($tprClass->getName()))
-                    ->getOrElse([]),
-            ])->getOrElse([]);
-
-        return ArrayList::collect($properties)
-            ->uniqueBy(fn (\ReflectionProperty $rp) => $rp->getName())
+        return ArrayList::collect($this->getInheritanceListOf($target))
+            ->map(static fn (string $class) => new \ReflectionClass($class))
+            ->map(static fn (\ReflectionClass $rClass) => $rClass->getProperties())
+            ->flatten()
+            ->uniqueBy(static fn (\ReflectionProperty $rProperty) => $rProperty->getName())
             ->reverse()
             ->toList();
     }
@@ -79,7 +121,8 @@ class TargetManipulator implements TargetManipulatorInterface
         try {
             return match (true) {
                 $target instanceof \ReflectionClass => $target,
-                'string' === \gettype($target) && class_exists($target) => new \ReflectionClass($target),
+                is_object($target) => new \ReflectionClass($target),
+                is_string($target) && class_exists($target) => new \ReflectionClass($target),
                 default => throw ManipulatorException::notSupportedType(\gettype($target)),
             };
         } catch (\Throwable $e) {

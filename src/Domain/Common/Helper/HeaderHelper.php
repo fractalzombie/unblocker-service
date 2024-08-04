@@ -13,7 +13,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace UnBlockerService\Infrastructure\Common\Helper;
+namespace UnBlockerService\Domain\Common\Helper;
 
 use JetBrains\PhpStorm\Immutable;
 use Symfony\Component\HttpFoundation\HeaderBag;

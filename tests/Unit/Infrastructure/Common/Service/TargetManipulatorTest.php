@@ -89,7 +89,7 @@ test('test TargetManipulator::getReflectionAttributesOf()', function (array $arg
         $this->expectException(ManipulatorException::class);
     }
 
-    $executedValue = (new TargetManipulator())->getReflectionAttributes(...$arguments);
+    $executedValue = (new TargetManipulator())->getReflectionAttributesOf(...$arguments);
 
     expect($executedValue[0]->newInstance()->testProperty)->toBe($expectedValue[0]->testProperty)
         ->and($executedValue[1]->newInstance()->testProperty)->toBe($expectedValue[1]->testProperty)
