@@ -52,9 +52,6 @@
             ".php-cs-fixer.dist.php"
         ]
     },
-    "frzb/dependency-injection": {
-        "version": "v1.6.3"
-    },
     "frzb/transactional-messenger": {
         "version": "v1.0.8"
     },

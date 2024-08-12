@@ -17,7 +17,6 @@ namespace UnBlockerService\Infrastructure\Symfony\Validator\Validator;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Entity;
-use Doctrine\Persistence\ObjectRepository;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\HttpFoundation\RequestStack;

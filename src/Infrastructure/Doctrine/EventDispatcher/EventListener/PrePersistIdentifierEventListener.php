@@ -21,7 +21,6 @@ use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Events;
 use Symfony\Bridge\Doctrine\IdGenerator\UuidGenerator;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\Uid\Uuid;
 use UnBlockerService\Domain\Common\Entity\IdentifierInterface;
 use UnBlockerService\Infrastructure\Doctrine\Entity\Subnet;
 

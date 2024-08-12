@@ -150,7 +150,8 @@ final readonly class TestHelper
             (new \ReflectionClass($subnet))
                 ->getProperty('id')
                 ->setValue($subnet, $id ?? Uuid::v4());
-        } catch (\ReflectionException) {}
+        } catch (\ReflectionException) {
+        }
 
         return $subnet;
     }

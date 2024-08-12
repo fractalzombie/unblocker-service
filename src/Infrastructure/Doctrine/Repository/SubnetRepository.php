@@ -15,7 +15,6 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Infrastructure\Doctrine\Repository;
 
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;

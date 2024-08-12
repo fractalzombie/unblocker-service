@@ -17,6 +17,7 @@ namespace UnBlockerService\Infrastructure\Subnet\Service\EventMessageResolver\Re
 
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Clock\ClockInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use UnBlockerService\Domain\Subnet\Enum\SubnetState;
 use UnBlockerService\Domain\Subnet\Message\EventMessage;
@@ -28,7 +29,7 @@ use UnBlockerService\Infrastructure\Doctrine\Entity\Subnet;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\CreateEventMessage;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\UpdateEventMessage;
 
-#[AutoconfigureTag(EventResolverInterface::class)]
+#[Autoconfigure(lazy: EventResolverInterface::class), AutoconfigureTag(EventResolverInterface::class)]
 final readonly class CreateEventResolver implements EventResolverInterface
 {
     public function __construct(

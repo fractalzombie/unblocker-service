@@ -17,7 +17,6 @@ namespace UnBlockerService\Infrastructure\Doctrine\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Types\UuidType;
 use UnBlockerService\Domain\Subnet\Entity\SubnetInterface;
 use UnBlockerService\Domain\Subnet\Enum\SubnetState;
 use UnBlockerService\Domain\Subnet\Helper\SubnetHelper;

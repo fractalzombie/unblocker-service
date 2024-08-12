@@ -16,9 +16,6 @@ declare(strict_types=1);
 namespace UnBlockerService\Infrastructure\Common\Service\Manipulator;
 
 use Fp\Collections\ArrayList;
-use Fp\Functional\Option\Option;
-use Illuminate\Support\Arr;
-use UnBlockerService\Domain\Common\Helper\ClassHelper;
 use UnBlockerService\Domain\Common\Service\Manipulator\Exception\ManipulatorException;
 use UnBlockerService\Domain\Common\Service\Manipulator\TargetManipulatorInterface;
 
@@ -121,8 +118,8 @@ class TargetManipulator implements TargetManipulatorInterface
         try {
             return match (true) {
                 $target instanceof \ReflectionClass => $target,
-                is_object($target) => new \ReflectionClass($target),
-                is_string($target) && class_exists($target) => new \ReflectionClass($target),
+                \is_object($target) => new \ReflectionClass($target),
+                \is_string($target) && class_exists($target) => new \ReflectionClass($target),
                 default => throw ManipulatorException::notSupportedType(\gettype($target)),
             };
         } catch (\Throwable $e) {

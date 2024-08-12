@@ -47,10 +47,10 @@ test('Test AddSubnetListCommand', function (array $subnets, string $country, int
         ->expects($expectedException ? $this->never() : $this->exactly($countOfSubnetListWithNotifierEvent))
         ->method('publish');
 
-//    $clockManipulator
-//        ->expects($expectedException ? $this->never() : $this->once())
-//        ->method('nowAsFormatted')
-//        ->willReturn((new \DateTimeImmutable())->format(\DateTimeInterface::RFC3339));
+    //    $clockManipulator
+    //        ->expects($expectedException ? $this->never() : $this->once())
+    //        ->method('nowAsFormatted')
+    //        ->willReturn((new \DateTimeImmutable())->format(\DateTimeInterface::RFC3339));
 
     $executedCommandStatus = (new AddSubnetListCommand($repository, $eventPublisher, $clockManipulator))
         ->run($input, $output);

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ca4078fcd2f218338bd0e19081e21d6",
+    "content-hash": "b935961393488f0f343e614c81e5f4f3",
     "packages": [
         {
             "name": "api-platform/core",
@@ -375,16 +375,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "4.0.4",
+            "version": "4.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "50fda19f80724b55ff770bb4ff352407008e63c5"
+                "reference": "389230389ed2d73a5fbf9a07d2bc0f8d0d56070e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/50fda19f80724b55ff770bb4ff352407008e63c5",
-                "reference": "50fda19f80724b55ff770bb4ff352407008e63c5",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/389230389ed2d73a5fbf9a07d2bc0f8d0d56070e",
+                "reference": "389230389ed2d73a5fbf9a07d2bc0f8d0d56070e",
                 "shasum": ""
             },
             "require": {
@@ -397,13 +397,13 @@
                 "doctrine/coding-standard": "12.0.0",
                 "fig/log-test": "^1",
                 "jetbrains/phpstorm-stubs": "2023.2",
-                "phpstan/phpstan": "1.11.5",
+                "phpstan/phpstan": "1.11.7",
                 "phpstan/phpstan-phpunit": "1.4.0",
                 "phpstan/phpstan-strict-rules": "^1.6",
-                "phpunit/phpunit": "10.5.22",
+                "phpunit/phpunit": "10.5.28",
                 "psalm/plugin-phpunit": "0.19.0",
                 "slevomat/coding-standard": "8.13.1",
-                "squizlabs/php_codesniffer": "3.10.1",
+                "squizlabs/php_codesniffer": "3.10.2",
                 "symfony/cache": "^6.3.8|^7.0",
                 "symfony/console": "^5.4|^6.3|^7.0",
                 "vimeo/psalm": "5.24.0"
@@ -463,7 +463,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/4.0.4"
+                "source": "https://github.com/doctrine/dbal/tree/4.0.5"
             },
             "funding": [
                 {
@@ -479,7 +479,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-06-19T11:57:23+00:00"
+            "time": "2024-08-07T12:53:48+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -1358,16 +1358,16 @@
         },
         {
             "name": "doctrine/sql-formatter",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/sql-formatter.git",
-                "reference": "d1ac84aef745c69ea034929eb6d65a6908b675cc"
+                "reference": "7f83911cc5eba870de7ebb11283972483f7e2891"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/sql-formatter/zipball/d1ac84aef745c69ea034929eb6d65a6908b675cc",
-                "reference": "d1ac84aef745c69ea034929eb6d65a6908b675cc",
+                "url": "https://api.github.com/repos/doctrine/sql-formatter/zipball/7f83911cc5eba870de7ebb11283972483f7e2891",
+                "reference": "7f83911cc5eba870de7ebb11283972483f7e2891",
                 "shasum": ""
             },
             "require": {
@@ -1407,9 +1407,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/sql-formatter/issues",
-                "source": "https://github.com/doctrine/sql-formatter/tree/1.4.0"
+                "source": "https://github.com/doctrine/sql-formatter/tree/1.4.1"
             },
-            "time": "2024-05-08T08:12:09+00:00"
+            "time": "2024-08-05T20:32:22+00:00"
         },
         {
             "name": "evilfreelancer/routeros-api-php",
@@ -1622,84 +1622,21 @@
             "time": "2023-05-22T14:30:32+00:00"
         },
         {
-            "name": "frzb/dependency-injection",
-            "version": "v2.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fractalzombie/frzb-dependency-injection.git",
-                "reference": "748e90be35cd11466b8c4a7d6690437bb436cebf"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fractalzombie/frzb-dependency-injection/zipball/748e90be35cd11466b8c4a7d6690437bb436cebf",
-                "reference": "748e90be35cd11466b8c4a7d6690437bb436cebf",
-                "shasum": ""
-            },
-            "require": {
-                "fp4php/functional": "^6.0",
-                "php": ">=8.1",
-                "symfony/dependency-injection": "^5.4|^6|^7",
-                "symfony/http-kernel": "^5.4|^6|^7"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^v3.41",
-                "phpunit/php-code-coverage": "^10.1",
-                "phpunit/phpunit": "^10.5",
-                "symfony/config": "^5.4|^6|^7",
-                "symfony/phpunit-bridge": "^5.4|^6|^7"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "FRZB\\Component\\DependencyInjection\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mykhailo Shtanko",
-                    "email": "fractalzombie@gmail.com"
-                }
-            ],
-            "description": "Allows you to standardize and centralize the way objects are constructed in your application by php attributes",
-            "homepage": "https://github.com/fractalzombie/frzb-dependency-injection",
-            "keywords": [
-                "dependency",
-                "dependency-injection",
-                "frzb",
-                "injection",
-                "library",
-                "symfony"
-            ],
-            "support": {
-                "issues": "https://github.com/fractalzombie/frzb-dependency-injection/issues",
-                "source": "https://github.com/fractalzombie/frzb-dependency-injection/tree/v2.1.1"
-            },
-            "time": "2024-03-19T22:35:48+00:00"
-        },
-        {
             "name": "frzb/transactional-messenger",
-            "version": "v1.4.5",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fractalzombie/frzb-transactional-messenger.git",
-                "reference": "21adecd7a9f55d5af6a20282105c87f312ccc5c1"
+                "reference": "bb1136af3db4104b1bf6ba2d4bdac66250a13a9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fractalzombie/frzb-transactional-messenger/zipball/21adecd7a9f55d5af6a20282105c87f312ccc5c1",
-                "reference": "21adecd7a9f55d5af6a20282105c87f312ccc5c1",
+                "url": "https://api.github.com/repos/fractalzombie/frzb-transactional-messenger/zipball/bb1136af3db4104b1bf6ba2d4bdac66250a13a9e",
+                "reference": "bb1136af3db4104b1bf6ba2d4bdac66250a13a9e",
                 "shasum": ""
             },
             "require": {
                 "fp4php/functional": "^6.0",
-                "frzb/dependency-injection": "^2.1",
                 "php": ">=8.2",
                 "symfony/event-dispatcher": "^6|^7",
                 "symfony/framework-bundle": "^6|^7",
@@ -1708,9 +1645,9 @@
                 "symfony/yaml": "^6|^7"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.41",
-                "phpunit/php-code-coverage": "^10.1",
-                "phpunit/phpunit": "^10.5",
+                "friendsofphp/php-cs-fixer": "^3.61",
+                "phpunit/php-code-coverage": "^11.0",
+                "phpunit/phpunit": "^11.2",
                 "symfony/phpunit-bridge": "^6|^7",
                 "symfony/test-pack": "^1.0.10"
             },
@@ -1748,9 +1685,9 @@
             ],
             "support": {
                 "issues": "https://github.com/fractalzombie/frzb-transactional-messenger/issues",
-                "source": "https://github.com/fractalzombie/frzb-transactional-messenger/tree/v1.4.5"
+                "source": "https://github.com/fractalzombie/frzb-transactional-messenger/tree/v1.5.0"
             },
-            "time": "2024-08-04T17:31:31+00:00"
+            "time": "2024-08-12T23:19:24+00:00"
         },
         {
             "name": "illuminate/collections",
@@ -2111,16 +2048,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v4.29.0",
+            "version": "v4.29.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "c9523906023e61351f03dbab8d077173f5ec4883"
+                "reference": "fbb94ebc33116fd10a67579c6eb970ff3c3ec067"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/c9523906023e61351f03dbab8d077173f5ec4883",
-                "reference": "c9523906023e61351f03dbab8d077173f5ec4883",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/fbb94ebc33116fd10a67579c6eb970ff3c3ec067",
+                "reference": "fbb94ebc33116fd10a67579c6eb970ff3c3ec067",
                 "shasum": ""
             },
             "require": {
@@ -2221,7 +2158,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.29.0"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.29.1"
             },
             "funding": [
                 {
@@ -2229,7 +2166,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-22T08:40:00+00:00"
+            "time": "2024-08-08T15:00:40+00:00"
         },
         {
             "name": "nelmio/cors-bundle",
@@ -7888,16 +7825,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.10.3",
+            "version": "v3.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "67f29781ffafa520b0bbfbd8384674b42db04572"
+                "reference": "e80fb8ebba85c7341a97a9ebf825d7fd4b77708d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/67f29781ffafa520b0bbfbd8384674b42db04572",
-                "reference": "67f29781ffafa520b0bbfbd8384674b42db04572",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/e80fb8ebba85c7341a97a9ebf825d7fd4b77708d",
+                "reference": "e80fb8ebba85c7341a97a9ebf825d7fd4b77708d",
                 "shasum": ""
             },
             "require": {
@@ -7905,7 +7842,8 @@
                 "symfony/deprecation-contracts": "^2.5|^3",
                 "symfony/polyfill-ctype": "^1.8",
                 "symfony/polyfill-mbstring": "^1.3",
-                "symfony/polyfill-php80": "^1.22"
+                "symfony/polyfill-php80": "^1.22",
+                "symfony/polyfill-php81": "^1.29"
             },
             "require-dev": {
                 "psr/container": "^1.0|^2.0",
@@ -7951,7 +7889,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.10.3"
+                "source": "https://github.com/twigphp/Twig/tree/v3.11.0"
             },
             "funding": [
                 {
@@ -7963,7 +7901,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-16T10:04:27+00:00"
+            "time": "2024-08-08T16:15:16+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -8800,16 +8738,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.61.1",
+            "version": "v3.62.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "94a87189f55814e6cabca2d9a33b06de384a2ab8"
+                "reference": "627692f794d35c43483f34b01d94740df2a73507"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/94a87189f55814e6cabca2d9a33b06de384a2ab8",
-                "reference": "94a87189f55814e6cabca2d9a33b06de384a2ab8",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/627692f794d35c43483f34b01d94740df2a73507",
+                "reference": "627692f794d35c43483f34b01d94740df2a73507",
                 "shasum": ""
             },
             "require": {
@@ -8891,7 +8829,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.61.1"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.62.0"
             },
             "funding": [
                 {
@@ -8899,7 +8837,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-31T14:33:15+00:00"
+            "time": "2024-08-07T17:03:09+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
@@ -10819,16 +10757,16 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "5.0.1",
+            "version": "5.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "2db5010a484d53ebf536087a70b4a5423c102372"
+                "reference": "2d3e04c3b4c1e84a5e7382221ad8883c8fbc4f53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/2db5010a484d53ebf536087a70b4a5423c102372",
-                "reference": "2db5010a484d53ebf536087a70b4a5423c102372",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/2d3e04c3b4c1e84a5e7382221ad8883c8fbc4f53",
+                "reference": "2d3e04c3b4c1e84a5e7382221ad8883c8fbc4f53",
                 "shasum": ""
             },
             "require": {
@@ -10839,7 +10777,7 @@
                 "sebastian/exporter": "^5.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^10.3"
+                "phpunit/phpunit": "^10.4"
             },
             "type": "library",
             "extra": {
@@ -10884,7 +10822,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/comparator/issues",
                 "security": "https://github.com/sebastianbergmann/comparator/security/policy",
-                "source": "https://github.com/sebastianbergmann/comparator/tree/5.0.1"
+                "source": "https://github.com/sebastianbergmann/comparator/tree/5.0.2"
             },
             "funding": [
                 {
@@ -10892,7 +10830,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-14T13:18:12+00:00"
+            "time": "2024-08-12T06:03:08+00:00"
         },
         {
             "name": "sebastian/complexity",

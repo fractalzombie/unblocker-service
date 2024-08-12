@@ -15,17 +15,19 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Domain\Subnet\Service\Downloader\Request;
 
-use UnBlockerService\Domain\Common\ValueObject\Provider;
-
 final readonly class Request
 {
-    public function __construct(
-        public string $url,
-        public string $country,
-    ) {}
+    public string $url;
+    public string $country;
 
-    public static function fromProvider(Provider $provider): self
+    public function __construct(string $url, string $country)
     {
-        return new self($provider->url, $provider->country);
+        $this->url = $url;
+        $this->country = strtoupper($country);
+    }
+
+    public static function fromProvider(array $provider): self
+    {
+        return new self(...$provider);
     }
 }

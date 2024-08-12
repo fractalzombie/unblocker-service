@@ -25,7 +25,7 @@ use UnBlockerService\Domain\Subnet\Repository\SubnetRepositoryInterface;
 use UnBlockerService\Domain\Subnet\Service\TransitionEventResolver\Resolver\EventResolverInterface;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\AddEventMessage;
 
-#[Autoconfigure, AutoconfigureTag(EventResolverInterface::class)]
+#[Autoconfigure(lazy: EventResolverInterface::class), AutoconfigureTag(EventResolverInterface::class)]
 final readonly class AddEventResolver implements EventResolverInterface
 {
     public function __construct(

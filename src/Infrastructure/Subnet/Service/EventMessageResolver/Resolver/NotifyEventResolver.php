@@ -25,7 +25,7 @@ use UnBlockerService\Domain\Subnet\Service\TransitionEventResolver\Exception\Eve
 use UnBlockerService\Domain\Subnet\Service\TransitionEventResolver\Resolver\EventResolverInterface;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\NotifyEventMessage;
 
-#[Autoconfigure, AutoconfigureTag(EventResolverInterface::class)]
+#[Autoconfigure(lazy: EventResolverInterface::class), AutoconfigureTag(EventResolverInterface::class)]
 final readonly class NotifyEventResolver implements EventResolverInterface
 {
     public function __construct(

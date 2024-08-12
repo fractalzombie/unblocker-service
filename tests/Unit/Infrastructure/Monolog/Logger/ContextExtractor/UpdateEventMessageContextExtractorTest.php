@@ -31,10 +31,10 @@ test('It extract context from UpdateEventMessage', function (UpdateEventMessage 
         ->method('getShortName')
         ->willReturn('LogicException');
 
-//    $clockManipulator
-//        ->expects($this->exactly(2))
-//        ->method('defaultFormat')
-//        ->willReturn($clockFormat);
+    //    $clockManipulator
+    //        ->expects($this->exactly(2))
+    //        ->method('defaultFormat')
+    //        ->willReturn($clockFormat);
 
     $context = $contextExtractor->extract($eventMessage, $exception);
 

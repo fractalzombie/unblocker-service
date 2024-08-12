@@ -23,7 +23,7 @@ use UnBlockerService\Domain\Subnet\Service\TransitionEventResolver\EventMessageR
 use UnBlockerService\Domain\Subnet\Service\TransitionEventResolver\Exception\EventMessageResolverException;
 use UnBlockerService\Domain\Subnet\Service\TransitionEventResolver\Resolver\EventResolverInterface as EventResolver;
 
-#[Autoconfigure]
+#[Autoconfigure(lazy: EventMessageResolverInterface::class)]
 final readonly class EventMessageResolver implements EventMessageResolverInterface
 {
     /** @var ArrayList<EventResolver> */

@@ -16,14 +16,13 @@ declare(strict_types=1);
 namespace UnBlockerService\Command\Subnet;
 
 use Fp\Collections\ArrayList;
-use FRZB\Component\DependencyInjection\Attribute\AsService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use UnBlockerService\Domain\Common\Service\Manipulator\ClockManipulatorInterface;
-use UnBlockerService\Domain\Common\ValueObject\Provider;
 use UnBlockerService\Domain\Subnet\Publisher\EventPublisherInterface;
 use UnBlockerService\Domain\Subnet\Service\Downloader\DownloaderInterface;
 use UnBlockerService\Domain\Subnet\Service\Downloader\Request\Request;
@@ -31,13 +30,14 @@ use UnBlockerService\Domain\Subnet\Service\Downloader\Serializer\ValueObject\Sub
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\CreateEventMessage;
 use UnBlockerService\Infrastructure\Symfony\Messenger\Message\NotifyEventMessage;
 
-#[AsCommand('router:subnet:download', 'Update subnet list'), AsService(arguments: ['$providerList' => '%env(json:PROVIDER_LIST)%'])]
+#[AsCommand('router:subnet:download', 'Update subnet list')]
 final class DownloadSubnetListCommand extends Command
 {
     public function __construct(
         private readonly DownloaderInterface $downloader,
         private readonly EventPublisherInterface $publisher,
         private readonly ClockManipulatorInterface $clockManipulator,
+        #[Autowire(env: 'json:PROVIDER_LIST')]
         private readonly array $providerList,
     ) {
         parent::__construct();
@@ -51,7 +51,6 @@ final class DownloadSubnetListCommand extends Command
             $ui->info('Download subnet lists');
 
             $subnetList = ArrayList::collect($this->providerList)
-                ->map(Provider::fromProvider(...))
                 ->map(Request::fromProvider(...))
                 ->map($this->downloader->download(...))
                 ->toMergedArray();

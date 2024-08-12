@@ -15,12 +15,14 @@ declare(strict_types=1);
 
 namespace UnBlockerService\Infrastructure\Symfony\Messenger\Publisher;
 
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\DispatchAfterCurrentBusStamp;
 use UnBlockerService\Domain\Subnet\Message\EventMessage;
 use UnBlockerService\Domain\Subnet\Publisher\EventPublisherInterface;
 use UnBlockerService\Domain\Subnet\Publisher\Exception\EventPublisherException;
 
+#[Autoconfigure(lazy: EventPublisherInterface::class)]
 final readonly class EventPublisher implements EventPublisherInterface
 {
     public function __construct(
